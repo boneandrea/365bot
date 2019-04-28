@@ -32,7 +32,11 @@ class MyTest extends TestCase
     public function testCreateMessage()
     {
         $this->assertEquals("飲んでんとはよ帰れ老人共！", $this->bot->createMessage("foo365bar"));
-        $this->assertEquals("KRですが何か", $this->bot->createMessage("fooKRbar"));
+
+        $json=json_encode($this->bot->createMessage("fooKRbar"),JSON_UNESCAPED_UNICODE);
+        $this->assertContains("オッス",$json);
+        $this->assertArrayHasKey("altText",$this->bot->createMessage("fooKRbar"));
+        $this->assertArrayHasKey("contents",$this->bot->createMessage("fooKRbar"));
     }
 
     public function testCheckMessageTypeUser()

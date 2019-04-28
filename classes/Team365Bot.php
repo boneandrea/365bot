@@ -33,7 +33,9 @@ class Team365Bot
 
         $msg=$this->createMessage($text);
         $this->log->addDebug($msg, ["additional"]);
-        if ($msg) {
+        if (is_array($msg)) {
+            $ret=$this->push($to, $msg);
+        }elseif(is_string($msg)){
             $ret=$this->pushText($to, $msg);
         }
     }
@@ -48,8 +50,13 @@ class Team365Bot
         if (preg_match("/365/", $text)) {
             return "飲んでんとはよ帰れ老人共！";
         }
-        if (preg_match("/KR/", $text)) {
-            return "KRですが何か";
+        if (preg_match("/KR/i", $text)) {
+            $str=file_get_contents("kuri.json");
+            return [
+                "type"=> "flex",
+                "altText"=> "This is a Flex Message",
+                "contents"=>json_decode($str, true)
+            ];
         }
         return null;
     }
@@ -66,16 +73,10 @@ class Team365Bot
 
     public function pushText($to, $text)
     {
-        $payload = [
-            'to' => $to,
-            'messages' => [
-                [
-                    'type' => 'text',
-                    'text' => $text
-                ]
-            ]
-        ];
-        return $this->_myPost($payload, getenv('LINE_API_PUSH'));
+        $this->push($to,[
+            'type' => 'text',
+            'text' => $text
+        ]);
     }
 
     public function header()
