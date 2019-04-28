@@ -11,7 +11,7 @@
     }
   },
   "scripts":{
-    "test": "vendor/bin/phpunit test.php",
-    "lint": "vendor/bin/php-cs-fixer fix ."
+    "test": "vendor/bin/phpunit tests",
+    "lint": "vendor/bin/php-cs-fixer fix --allow-risky=yes ."
   }
 }
