@@ -7,11 +7,10 @@ require_once __DIR__.'/vendor/autoload.php';
 use PHPUnit\Framework\TestCase;
 use Util\Team365Bot;
 
-
-class MyTest extends TestCase{
-
-    public function setUp(){
-
+class MyTest extends TestCase
+{
+    public function setUp()
+    {
         $obj=[
             "events"=>[
                 [
@@ -30,12 +29,14 @@ class MyTest extends TestCase{
         $this->bot=new Team365Bot($obj);
     }
 
-    public function testCreateMessage(){
-        $this->assertEquals("飲んでんとはよ帰れ老人共！",$this->bot->createMessage("foo365bar"));
-        $this->assertEquals("KRですが何か",$this->bot->createMessage("fooKRbar"));
+    public function testCreateMessage()
+    {
+        $this->assertEquals("飲んでんとはよ帰れ老人共！", $this->bot->createMessage("foo365bar"));
+        $this->assertEquals("KRですが何か", $this->bot->createMessage("fooKRbar"));
     }
 
-    public function testCheckMessageTypeUser(){
+    public function testCheckMessageTypeUser()
+    {
         $this->bot->msg=[
             "events"=>[
                 [
@@ -53,7 +54,8 @@ class MyTest extends TestCase{
         $this->assertEquals("user", $this->bot->checkMessageType());
     }
 
-    public function testCheckMessageTypeGroup(){
+    public function testCheckMessageTypeGroup()
+    {
         $this->bot->msg=[
             "events"=>[
                 [

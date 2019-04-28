@@ -12,7 +12,7 @@ use Monolog\Handler\StreamHandler;
 $log = new Logger('MONOLOG_TEST');
 //ログレベルをDEBUG（最も低い）に設定
 
-$handler = new StreamHandler('./logs/app.log',Logger::DEBUG);
+$handler = new StreamHandler('./logs/app.log', Logger::DEBUG);
 $log->pushHandler($handler);
 
 //monolog
@@ -21,15 +21,18 @@ $log->pushHandler($handler);
 // $log->addWarning('わーにんぐ');
 // $log->addError('えらー');
 
-if(0)foreach ($_SERVER as $name => $value) {
-    //$log->addDebug("$name: $value");
+if (0) {
+    foreach ($_SERVER as $name => $value) {
+        //$log->addDebug("$name: $value");
+    }
 }
 
 // TODO: verify
-function verify_signature($sign){
+function verify_signature($sign)
+{
     //$log->addDebug("HTTP_X_LINE_SIGNATURE: ".$sign);
 }
-verify_signature( $_SERVER["HTTP_X_LINE_SIGNATURE"]);
+verify_signature($_SERVER["HTTP_X_LINE_SIGNATURE"]);
 
 $json_string = file_get_contents('php://input'); ##今回のキモ
 $log->addDebug($json_string);
