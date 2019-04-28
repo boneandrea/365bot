@@ -53,7 +53,6 @@ class Team365Bot
             return "綾馬場さんがなんとかしてくれますよ";
         } elseif (preg_match("/365/", $text)) {
             return "365日雨の日も晴れの日も薄汚れた居酒屋の片隅で酒を飲むことしか知らない人生の無駄遣いの見本市のような皆さん";
-        //return "飲んでんとはよ帰れ老人共！"; // 時報用
         } elseif (preg_match("/KR/i", $text)) {
             $str=file_get_contents("kuri.json");
             return [
