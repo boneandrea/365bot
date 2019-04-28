@@ -29,14 +29,34 @@ class MyTest extends TestCase
         $this->bot=new Team365Bot($obj);
     }
 
-    public function testCreateMessage()
+    public function testCreateMessage365()
     {
-        $this->assertEquals("飲んでんとはよ帰れ老人共！", $this->bot->createMessage("foo365bar"));
+        $this->assertContains(
+            "雨の日も晴れの日も",
+            $this->bot->createMessage("foo365bar"),
+            "365に反応"
+        );
+    }
 
-        $json=json_encode($this->bot->createMessage("fooKRbar"),JSON_UNESCAPED_UNICODE);
-        $this->assertContains("オッス",$json);
-        $this->assertArrayHasKey("altText",$this->bot->createMessage("fooKRbar"));
-        $this->assertArrayHasKey("contents",$this->bot->createMessage("fooKRbar"));
+    public function testCreateMessageKR()
+    {
+        $json=json_encode($this->bot->createMessage("fooKRbar"), JSON_UNESCAPED_UNICODE);
+        $this->assertContains("オッス", $json);
+
+        $json=json_encode($this->bot->createMessage("fookrbar"), JSON_UNESCAPED_UNICODE);
+        $this->assertContains("オッス", $json);
+
+        $this->assertEquals(
+            "当然ですね",
+            $this->bot->createMessage("別にない")
+        );
+        $this->assertEquals(
+            "綾馬場さんがなんとかしてくれますよ",
+            $this->bot->createMessage("文句がある")
+        );
+        $this->assertNull(
+            $this->bot->createMessage("栗林")
+        );
     }
 
     public function testCheckMessageTypeUser()

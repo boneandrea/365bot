@@ -35,7 +35,7 @@ class Team365Bot
         $this->log->addDebug($msg, ["additional"]);
         if (is_array($msg)) {
             $ret=$this->push($to, $msg);
-        }elseif(is_string($msg)){
+        } elseif (is_string($msg)) {
             $ret=$this->pushText($to, $msg);
         }
     }
@@ -47,10 +47,14 @@ class Team365Bot
 
     public function createMessage($text)
     {
-        if (preg_match("/365/", $text)) {
-            return "飲んでんとはよ帰れ老人共！";
-        }
-        if (preg_match("/KR/i", $text)) {
+        if (preg_match("/別にない/", $text)) {
+            return "当然ですね";
+        } elseif (preg_match("/文句がある/", $text)) {
+            return "綾馬場さんがなんとかしてくれますよ";
+        } elseif (preg_match("/365/", $text)) {
+            return "365日雨の日も晴れの日も薄汚れた居酒屋の片隅で酒を飲むことしか知らない人生の無駄遣いの見本市のような皆さん";
+        //return "飲んでんとはよ帰れ老人共！"; // 時報用
+        } elseif (preg_match("/KR/i", $text)) {
             $str=file_get_contents("kuri.json");
             return [
                 "type"=> "flex",
@@ -73,7 +77,7 @@ class Team365Bot
 
     public function pushText($to, $text)
     {
-        $this->push($to,[
+        $this->push($to, [
             'type' => 'text',
             'text' => $text
         ]);

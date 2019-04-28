@@ -33,9 +33,9 @@
         "style": "link",
         "height": "sm",
         "action": {
-          "type": "uri",
+          "type":"message",
           "label": "文句がある",
-          "uri": "https://linecorp.com"
+          "text":"文句がある"
         }
       },
       {
@@ -43,9 +43,9 @@
         "style": "link",
         "height": "sm",
         "action": {
-          "type": "uri",
+          "type":"message",
           "label": "別にない",
-          "uri": "https://linecorp.com"
+          "text":"別にない"
         }
       },
       {
