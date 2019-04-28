@@ -33,13 +33,8 @@ verify_signature( $_SERVER["HTTP_X_LINE_SIGNATURE"]);
 
 $json_string = file_get_contents('php://input'); ##今回のキモ
 $log->addDebug($json_string);
-$obj = json_decode($json_string);
+$obj = json_decode($json_string, true);
 
 $bot=new Team365Bot($obj);
 
-//$to=getenv("GROUP_ID");
-$to=getenv("TO_USER_ID");
-$ret=$bot->pushText($to,
-                  "飲んでんとはよ帰れ老人共！");
-
-var_dump($ret);
+$bot->reply();

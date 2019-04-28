@@ -23,6 +23,32 @@ class Team365Bot{
 		$this->log->pushHandler($handler);
 	}
 
+    // なんか考えてリプライする
+    public function reply(){
+
+        $text=$this->msg["events"][0]["message"]["text"];
+        $this->log->addDebug($text);
+
+        //$to=getenv("GROUP_ID");
+        $to=getenv("TO_USER_ID");
+
+        $msg=$this->createMessage($text);
+        $this->log->addDebug($msg,["additional"]);
+        if($msg){
+            $ret=$this->pushText($to, $msg);
+        }
+    }
+
+    public function createMessage($text){
+        if(preg_match("/365/",$text)){
+            return "飲んでんとはよ帰れ老人共！";
+        }
+        if(preg_match("/KR/",$text)){
+            return "KRですが何か";
+        }
+        return null;
+    }
+
 	public function push($to, $json)
 	{
 		$payload = [
@@ -69,7 +95,7 @@ class Team365Bot{
 		$ret = curl_exec($ch);
 		curl_close($ch);
 
-        $this->log->addDebug($ret);
+        $this->log->addDebug($ret,["additional"]);
 		return $ret;
 	}
 }
