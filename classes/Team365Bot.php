@@ -29,14 +29,18 @@ class Team365Bot{
         $text=$this->msg["events"][0]["message"]["text"];
         $this->log->addDebug($text);
 
-        //$to=getenv("GROUP_ID");
-        $to=getenv("TO_USER_ID");
+        $to= ($this->checkMessageType() === "user") ? getenv("TO_USER_ID"): getenv("GROUP_ID");
 
         $msg=$this->createMessage($text);
         $this->log->addDebug($msg,["additional"]);
         if($msg){
             $ret=$this->pushText($to, $msg);
         }
+    }
+
+    public function checkMessageType(){
+
+        return (isset($this->msg["events"][0]["source"]["groupId"])) ? "group":"user";
     }
 
     public function createMessage($text){

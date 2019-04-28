@@ -8,5 +8,8 @@
     "psr-4": {
       "Util\\" : "classes/"
     }
+  },
+  "scripts":{
+    "test": "vendor/bin/phpunit test.php"
   }
 }
