@@ -46,6 +46,8 @@ class Team365Bot
 
 	public function createMessage($text)
 	{
+		$kuri_str = file_get_contents('kuri.json');
+
 		if (preg_match('/別にない/', $text)) {
 			return '当然ですね';
 		} elseif (preg_match('/文句がある/', $text)) {
@@ -53,13 +55,13 @@ class Team365Bot
 		} elseif (preg_match('/365/', $text)) {
 			return '365日雨の日も晴れの日も薄汚れた居酒屋の片隅で酒を飲むことしか知らない人生の無駄遣いの見本市のような皆さん';
 		} elseif (preg_match('/KR/i', $text)) {
-			$str = file_get_contents('kuri.json');
-
 			return [
 				'type' => 'flex',
-				'altText' => 'This is a Flex Message',
-				'contents' => json_decode($str, true),
+				'altText' => '栗林先生参上！',
+				'contents' => json_decode($kuri_str, true),
 			];
+		} elseif (preg_match('/綾馬場/', $text)) {
+			return '綾馬場さんの話するときは僕を通してください！';
 		}
 
 		return null;

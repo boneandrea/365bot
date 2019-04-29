@@ -41,6 +41,7 @@ class MyTest extends TestCase
 	{
 		$json = json_encode($this->bot->createMessage('fooKRbar'), JSON_UNESCAPED_UNICODE);
 		$this->assertContains('オッス', $json);
+		$this->assertContains('栗林先生参上！', $json);
 
 		$json = json_encode($this->bot->createMessage('fookrbar'), JSON_UNESCAPED_UNICODE);
 		$this->assertContains('オッス', $json);
@@ -56,6 +57,9 @@ class MyTest extends TestCase
 		$this->assertNull(
 			$this->bot->createMessage('栗林')
 		);
+
+		$json = json_encode($this->bot->createMessage('綾馬場'), JSON_UNESCAPED_UNICODE);
+		$this->assertContains('綾馬場さんの話するときは僕を通してください！', $json);
 	}
 
 	public function testCheckMessageTypeUser()
