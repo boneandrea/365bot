@@ -1,16 +1,16 @@
 {
-    "require": {
-        "monolog/monolog": "^1.24",
-        "vlucas/phpdotenv": "^3.3",
-        "phpunit/phpunit": "^6.5",
-        "friendsofphp/php-cs-fixer": "^2.14"
-    },
+  "require": {
+    "monolog/monolog": "^1.24",
+    "vlucas/phpdotenv": "^3.3",
+    "phpunit/phpunit": "^6.5",
+    "friendsofphp/php-cs-fixer": "^2.14"
+  },
   "autoload": {
     "psr-4": {
-      "Util\\" : "classes/"
+      "Util\\": "classes/"
     }
   },
-  "scripts":{
+  "scripts": {
     "test": "vendor/bin/phpunit tests",
     "lint": "vendor/bin/php-cs-fixer fix --allow-risky=yes ."
   }
