@@ -41,6 +41,13 @@ if (PHP_SAPI === 'cli') {	// shell実行、時報
 		getenv('TO_ALARM_CHANNEL'),
 		'飲んでんとはよ帰れ老人共！さて正解は次のうちどれでしょう'
 	);
+
+    $bot->push([
+        'type' => 'flex',
+        'altText' => 'message',
+        'contents' => json_decode(file_get_contents('messages/json/hello.json'), true),
+    ]);
+
 } else {	// Webhook
 	verify_signature($_SERVER['HTTP_X_LINE_SIGNATURE']);
 	syslog(LOG_DEBUG, 'LINE HEADER SIGNATURE IS OK');

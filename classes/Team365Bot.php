@@ -36,11 +36,11 @@ class Team365Bot
 		$to = ($type=== 'user' || $type==="postback") ? getenv('TO_USER_ID') : getenv('GROUP_ID');
 
         if($type==="postback"){
-            return $this->handlePostback($this->msg['events'][0], $to);
+            $msg=$this->handlePostback($this->msg['events'][0], $to);
+        }else{
+            $text = $this->msg['events'][0]['message']['text'];
+            $msg = $this->createMessage($text);
         }
-
-		$text = $this->msg['events'][0]['message']['text'];
-		$msg = $this->createMessage($text);
 
 		if (is_array($msg)) {
 			$ret = $this->push($to, $msg);
