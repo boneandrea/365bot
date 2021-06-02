@@ -57,4 +57,25 @@ class SendLine
 
 		return $ret;
 	}
+
+	public function _myGet($apiUrl)
+	{
+		$ch = curl_init($apiUrl);
+		$options = [
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_HTTPHEADER => $this->header(),
+		];
+
+		curl_setopt_array($ch, $options);
+		$ret = curl_exec($ch);
+		curl_close($ch);
+
+		$this->log->addDebug($ret, ['additional']);
+
+		return $ret;
+	}
+
+    public function getProfile($userId, $groupId){
+        return $this->_myGet("https://api.line.me/v2/bot/group/$groupId/member/$userId");
+    }
 }

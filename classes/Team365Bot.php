@@ -32,6 +32,17 @@ class Team365Bot
         $this->db=new MyDB();
 	}
 
+	/**
+     * 誰に送る
+     *
+     * @param string $type
+     * @return string MessagingAPIで使う送信先ID
+     */
+
+    public function setRecipient($type){
+		return ($type=== 'user') ? getenv('TO_USER_ID') : getenv('GROUP_ID');
+    }
+
 	// なんか考えてリプライする
 	public function reply()
 	{
@@ -39,7 +50,7 @@ class Team365Bot
 		$this->log->addDebug($this->checkMessageType());
 
 		$type = $this->checkMessageType();
-		$to = ($type=== 'user' || $type==="postback") ? getenv('TO_USER_ID') : getenv('GROUP_ID');
+		$to = $this->setRecipient($type);
 
         if($type==="postback"){
             $msg=$this->handlePostback($this->msg['events'][0], $to);
@@ -55,12 +66,19 @@ class Team365Bot
 		}
 	}
 
+	public function getUserInfo(array $msg): array{
+        return json_decode($this->sender->getProfile($msg["source"]["userId"],  getenv('GROUP_ID')), true);
+    }
+
 	public function handlePostback(array $msg, string $to){
 
+        $userInfo=$this->getUserInfo($msg);
+        $name=$userInfo["displayName"];
+
         if($msg["postback"]["data"] === "yes"){
-            $reply="でかした";
+            $reply="hey $name, でかした";
         }elseif($msg["postback"]["data"] === "no"){
-            $reply="なんとなさけない";
+            $reply="Ohhhhhhhhh Arrrrrghhhhhhh $name, なんとなさけない";
         }
         $ret = $this->sender->pushText($to, $reply);
 
