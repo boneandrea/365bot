@@ -109,21 +109,13 @@ class Team365Bot
 		return null;
 	}
 
-	// public function push($to, $json)
-	// {
-	// 	$payload = [
-	// 		'to' => $to,
-	// 		'messages' => [$json],
-	// 	];
+	public function push($to,$msg)
+	{
+		$this->sender->push($to, $msg);
+	}
 
-	// 	return $this->sender->_myPost($payload, getenv('LINE_API_PUSH'));
-	// }
-
-	// public function pushText($to, $text)
-	// {
-	// 	$this->push($to, [
-	// 		'type' => 'text',
-	// 		'text' => $text,
-	// 	]);
-	// }
+	public function pushText($to, $text)
+	{
+		$this->sender->pushText($to, $text);
+	}
 }

@@ -38,11 +38,11 @@ if (PHP_SAPI === 'cli') {	// shell実行、時報
 
 	syslog(LOG_DEBUG, 'send');
 	$bot->pushText(
-		getenv('TO_ALARM_CHANNEL'),
-		'飲んでんとはよ帰れ老人共！さて正解は次のうちどれでしょう'
+		getenv('GROUP_ID'),
+		'飲んでんとはよ帰れ老人共！'
 	);
 
-    $bot->push([
+    $bot->push(getenv('GROUP_ID'), [
         'type' => 'flex',
         'altText' => 'message',
         'contents' => json_decode(file_get_contents('messages/json/hello.json'), true),
