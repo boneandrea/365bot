@@ -31,8 +31,8 @@ function verify_signature($sign)
 }
 
 // main
-if(PHP_SAPI === "cli"){
-	// shell実行、時報
+if(PHP_SAPI === "cli"){	// shell実行、時報
+
 	$bot = new Team365Bot([]);
 	$dotenv = Dotenv::create(__DIR__);
 	$dotenv->load();
@@ -42,8 +42,8 @@ if(PHP_SAPI === "cli"){
 		getenv('TO_ALARM_CHANNEL'),
 		'飲んでんとはよ帰れ老人共！さて正解は次のうちどれでしょう'
 	);
-}else{
-	// Webhook
+}else{	// Webhook
+
 	verify_signature($_SERVER['HTTP_X_LINE_SIGNATURE']);
 	syslog(LOG_DEBUG, 'LINE HEADER SIGNATURE IS OK');
 	$json_string = file_get_contents('php://input');
