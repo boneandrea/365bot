@@ -5,7 +5,6 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@PSR2' => true,
         '@Symfony' => true,
-        'strict_comparison' => true,
         'yoda_style' => ['equal' => false, 'identical' => false],
     ])
     ->setFinder(PhpCsFixer\Finder::create()

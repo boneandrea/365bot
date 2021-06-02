@@ -4,17 +4,13 @@ namespace Util;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Dotenv\Dotenv;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
 class SendLine
 {
 	public $log; // これをパースする
 
 	public function __construct($log)
 	{
-		$this->log=$log;
+		$this->log = $log;
 	}
 
 	public function push($to, $json)

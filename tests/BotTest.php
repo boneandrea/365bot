@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class MyTest extends TestCase
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$obj = [
 			'events' => [
@@ -30,21 +30,20 @@ class MyTest extends TestCase
 
 	public function testCreateMessage365()
 	{
-		$this->assertContains(
-			'雨の日も晴れの日も',
-			$this->bot->createMessage('foo365bar'),
-			'365に反応'
+		$this->assertMatchesRegularExpression('/雨の日も晴れの日も/',
+							$this->bot->createMessage('foo365bar'),
+							'365に反応'
 		);
 	}
 
 	public function testCreateMessageKR()
 	{
 		$json = json_encode($this->bot->createMessage('fooKRbar'), JSON_UNESCAPED_UNICODE);
-		$this->assertContains('オッス', $json);
-		$this->assertContains('栗林先生参上！', $json);
+		$this->assertMatchesRegularExpression('/オッス/', $json);
+		$this->assertMatchesRegularExpression('/栗林先生参上！/', $json);
 
 		$json = json_encode($this->bot->createMessage('fookrbar'), JSON_UNESCAPED_UNICODE);
-		$this->assertContains('オッス', $json);
+		$this->assertMatchesRegularExpression('/オッス/', $json);
 
 		$this->assertEquals(
 			'当然ですね',
@@ -59,7 +58,7 @@ class MyTest extends TestCase
 		);
 
 		$json = json_encode($this->bot->createMessage('綾馬場'), JSON_UNESCAPED_UNICODE);
-		$this->assertContains('綾馬場さんの話するときは僕を通してください！', $json);
+		$this->assertMatchesRegularExpression('/綾馬場さんの話するときは僕を通してください！/', $json);
 	}
 
 	public function testCheckMessageTypeUser()

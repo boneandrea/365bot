@@ -2,8 +2,9 @@
   "require": {
     "monolog/monolog": "^1.24",
     "vlucas/phpdotenv": "^3.3",
-    "phpunit/phpunit": "*",
-    "friendsofphp/php-cs-fixer": "^2.14"
+    "phpunit/phpunit": "^9.5",
+    "friendsofphp/php-cs-fixer": "^2.14",
+    "nanasess/php8-compat": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -12,6 +13,6 @@
   },
   "scripts": {
     "test": "vendor/bin/phpunit tests",
-    "lint": "vendor/bin/php-cs-fixer fix --allow-risky=yes ."
+    "lint": "vendor/bin/php-cs-fixer fix src"
   }
 }
