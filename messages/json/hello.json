@@ -1,0 +1,67 @@
+{
+  "type": "bubble",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [],
+    "paddingAll": "0px"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "contents": [],
+                "size": "xl",
+                "wrap": true,
+                "text": "我々は365です。コロナとか無関係に飲まなければなりません。\nで、今日は..",
+                "color": "#000000",
+                "weight": "bold"
+              }
+            ],
+            "spacing": "sm"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "postback",
+                  "data": "yes",
+                  "label": "飲んでない"
+                },
+                "color": "#000000"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "postback",
+                  "label": "飲んだ",
+                  "data": "yes"
+                },
+                "color": "#000000"
+              }
+            ],
+            "paddingAll": "13px",
+            "backgroundColor": "#6565651a",
+            "cornerRadius": "2px",
+            "margin": "xl"
+          }
+        ]
+      }
+    ],
+    "paddingAll": "20px",
+    "backgroundColor": "#ffffff"
+  }
+}

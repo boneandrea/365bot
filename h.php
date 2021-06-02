@@ -1,6 +1,6 @@
 <?php
 
-openlog('myScriptLog', LOG_PID, LOG_LOCAL7);
+openlog('Team365', LOG_PID, LOG_LOCAL7);
 
 require_once __DIR__.'/vendor/autoload.php';
 
@@ -12,22 +12,16 @@ use Monolog\Handler\StreamHandler;
 syslog(LOG_DEBUG, 'START');
 //ログにつくprefixを与えてインスタンス作成
 $log = new Logger('MONOLOG_TEST');
+
 //ログレベルをDEBUG（最も低い）に設定
 
-$handler = new StreamHandler('./logs/app.log', Logger::DEBUG);
-$log->pushHandler($handler);
+$log->pushHandler(new StreamHandler('./logs/app.log', Logger::DEBUG));
 
-//monolog
+// usage of monolog
 // $log->addDebug('でばっぐ');
 // $log->addInfo('いんふぉ');
 // $log->addWarning('わーにんぐ');
 // $log->addError('えらー');
-
-if (0) {
-	foreach ($_SERVER as $name => $value) {
-		//$log->addDebug("$name: $value");
-	}
-}
 
 // TODO: verify
 function verify_signature($sign)
