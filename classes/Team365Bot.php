@@ -12,6 +12,7 @@ class Team365Bot
 {
 	public $msg; // これをパースする
     public $sender;
+    private $db;
 
 	public function __construct($json)
 	{
@@ -19,11 +20,16 @@ class Team365Bot
 
 		$dotenv = Dotenv::create(__DIR__.'/..');
 		$dotenv->load(); //.envが無いとエラーになる
-		$this->log = new Logger('MONOLOG_TEST');
+
+		// setup log
+        $this->log = new Logger('MONOLOG_TEST');
         $this->sender=new SendLine($this->log);
 		//ログレベルをDEBUG（最も低い）に設定
 		$handler = new StreamHandler('./logs/app.log', Logger::DEBUG);
 		$this->log->pushHandler($handler);
+
+        // setup db acccesor
+        $this->db=new MyDB();
 	}
 
 	// なんか考えてリプライする
@@ -43,20 +49,26 @@ class Team365Bot
         }
 
 		if (is_array($msg)) {
-			$ret = $this->push($to, $msg);
+			$ret = $this->sender->push($to, $msg);
 		} elseif (is_string($msg)) {
-			$ret = $this->pushText($to, $msg);
+			$ret = $this->sender->pushText($to, $msg);
 		}
 	}
 
 	public function handlePostback(array $msg, string $to){
 
         if($msg["postback"]["data"] === "yes"){
-            $msg="でかした";
+            $reply="でかした";
         }elseif($msg["postback"]["data"] === "no"){
-            $msg="なんとなさけない";
+            $reply="なんとなさけない";
         }
-        $ret = $this->pushText($to, $msg);
+        $ret = $this->sender->pushText($to, $reply);
+
+        $this->db->insertDrink([
+            "user_id"=>$msg["source"]["userId"],
+            "drink"=>1,
+        ]);
+
     }
 
 	public function checkMessageType()
@@ -97,21 +109,21 @@ class Team365Bot
 		return null;
 	}
 
-	public function push($to, $json)
-	{
-		$payload = [
-			'to' => $to,
-			'messages' => [$json],
-		];
+	// public function push($to, $json)
+	// {
+	// 	$payload = [
+	// 		'to' => $to,
+	// 		'messages' => [$json],
+	// 	];
 
-		return $this->sender->_myPost($payload, getenv('LINE_API_PUSH'));
-	}
+	// 	return $this->sender->_myPost($payload, getenv('LINE_API_PUSH'));
+	// }
 
-	public function pushText($to, $text)
-	{
-		$this->push($to, [
-			'type' => 'text',
-			'text' => $text,
-		]);
-	}
+	// public function pushText($to, $text)
+	// {
+	// 	$this->push($to, [
+	// 		'type' => 'text',
+	// 		'text' => $text,
+	// 	]);
+	// }
 }
