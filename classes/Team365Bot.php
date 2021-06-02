@@ -29,13 +29,19 @@ class Team365Bot
 	// なんか考えてリプライする
 	public function reply()
 	{
-		$text = $this->msg['events'][0]['message']['text'];
-		$this->log->addDebug($text);
+		error_log(print_r($this->msg,true));
+		$this->log->addDebug($this->checkMessageType());
 
-		$to = ($this->checkMessageType() === 'user') ? getenv('TO_USER_ID') : getenv('GROUP_ID');
+		$type = $this->checkMessageType();
+		$to = ($type=== 'user' || $type==="postback") ? getenv('TO_USER_ID') : getenv('GROUP_ID');
+
+        if($type==="postback"){
+            return $this->handlePostback($this->msg['events'][0], $to);
+        }
+
+		$text = $this->msg['events'][0]['message']['text'];
 		$msg = $this->createMessage($text);
 
-		$this->log->addDebug($msg, ['additional']);
 		if (is_array($msg)) {
 			$ret = $this->push($to, $msg);
 		} elseif (is_string($msg)) {
@@ -43,9 +49,25 @@ class Team365Bot
 		}
 	}
 
+	public function handlePostback(array $msg, string $to){
+
+        if($msg["postback"]["data"] === "yes"){
+            $msg="でかした";
+        }elseif($msg["postback"]["data"] === "no"){
+            $msg="なんとなさけない";
+        }
+        $ret = $this->pushText($to, $msg);
+    }
+
 	public function checkMessageType()
 	{
-		return (isset($this->msg['events'][0]['source']['groupId'])) ? 'group' : 'user';
+		if($this->msg['events'][0]['type']==="postback"){
+            return "postback";
+        }elseif (isset($this->msg['events'][0]['source']['groupId'])){
+            return 'group';
+        }else{
+            return 'user';
+        }
 	}
 
 	public function createMessage($text)

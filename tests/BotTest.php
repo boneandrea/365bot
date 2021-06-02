@@ -6,7 +6,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 
-class MyTest extends TestCase
+class BotTest extends TestCase
 {
 	public function setUp(): void
 	{
