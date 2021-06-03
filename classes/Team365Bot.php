@@ -4,7 +4,6 @@ namespace Util;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Dotenv\Dotenv;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -14,12 +13,10 @@ class Team365Bot
     public $sender;
     private $db;
 
-	public function __construct($json)
+	public function __construct(array $json)
 	{
 		$this->msg = $json;
-
-		$dotenv = Dotenv::create(__DIR__.'/..');
-		$dotenv->load(); //.envが無いとエラーになる
+		error_log(print_r($this->msg,true));
 
 		// setup log
         $this->log = new Logger('MONOLOG_TEST');
@@ -40,13 +37,16 @@ class Team365Bot
      */
 
     public function setRecipient($type){
-		return ($type=== 'user') ? getenv('TO_USER_ID') : getenv('GROUP_ID');
+        if(IS_PRD){
+            return ($type=== 'user') ? getenv('TO_USER_ID') : getenv('GROUP_ID');
+        }else{
+            return getenv('TO_USER_ID');
+        }
     }
 
 	// なんか考えてリプライする
 	public function reply()
 	{
-		error_log(print_r($this->msg,true));
 		$this->log->addDebug($this->checkMessageType());
 
 		$type = $this->checkMessageType();
@@ -119,7 +119,7 @@ class Team365Bot
 		} elseif (preg_match('/ああああ/', $text)) {
             return [
 				'type' => 'flex',
-				'altText' => 'message',
+				'altText' => '時報でござる。',
 				'contents' => json_decode(file_get_contents('messages/json/hello.json'), true),
 			];
 		}

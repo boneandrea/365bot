@@ -53,8 +53,6 @@ class SendLine
 		$ret = curl_exec($ch);
 		curl_close($ch);
 
-		$this->log->addDebug($ret, ['additional']);
-
 		return $ret;
 	}
 
@@ -69,8 +67,6 @@ class SendLine
 		curl_setopt_array($ch, $options);
 		$ret = curl_exec($ch);
 		curl_close($ch);
-
-		$this->log->addDebug($ret, ['additional']);
 
 		return $ret;
 	}
