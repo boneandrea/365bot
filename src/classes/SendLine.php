@@ -2,7 +2,7 @@
 
 namespace Util;
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 
 class SendLine
 {
@@ -71,7 +71,8 @@ class SendLine
 		return $ret;
 	}
 
-    public function getProfile($userId, $groupId){
-        return $this->_myGet("https://api.line.me/v2/bot/group/$groupId/member/$userId");
-    }
+	public function getProfile($userId, $groupId)
+	{
+		return $this->_myGet("https://api.line.me/v2/bot/group/$groupId/member/$userId");
+	}
 }
