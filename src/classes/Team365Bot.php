@@ -16,13 +16,11 @@ class Team365Bot
 	public function __construct(array $json)
 	{
 		$this->msg = $json;
-		error_log(print_r($this->msg, true));
 
 		// setup log
 		$this->log = new Logger('MONOLOG_TEST');
 		$this->sender = new SendLine($this->log);
-		//ログレベルをDEBUG（最も低い）に設定
-		$handler = new StreamHandler(__DIR__.'/../logs/app.log', Logger::DEBUG);
+		$handler = new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG);
 		$this->log->pushHandler($handler);
 
 		// setup db acccesor
@@ -60,11 +58,20 @@ class Team365Bot
 			$msg = $this->createMessage($text);
 		}
 
+        error_log(print_r($msg, true));
+
 		if (is_array($msg)) {
 			$ret = $this->sender->push($to, $msg);
 		} elseif (is_string($msg)) {
 			$ret = $this->sender->pushText($to, $msg);
 		}
+
+        if($ret["status"] === 200){
+            syslog(LOG_DEBUG, "送信成功");
+        }else{
+            error_log(print_r($ret, true));
+            syslog(LOG_DEBUG, "送信失敗");
+        }
 	}
 
 	public function getUserInfo(array $msg): array

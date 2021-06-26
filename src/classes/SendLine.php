@@ -25,7 +25,7 @@ class SendLine
 
 	public function pushText($to, $text)
 	{
-		$this->push($to, [
+		return $this->push($to, [
 			'type' => 'text',
 			'text' => $text,
 		]);
@@ -51,9 +51,11 @@ class SendLine
 
 		curl_setopt_array($ch, $options);
 		$ret = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 		curl_close($ch);
 
-		return $ret;
+        syslog(LOG_DEBUG,$httpcode.":".$ret);
+		return ["status"=>$httpcode, "body"=>$ret];
 	}
 
 	public function _myGet($apiUrl)

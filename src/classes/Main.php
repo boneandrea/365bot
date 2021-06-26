@@ -22,7 +22,7 @@ class Main
 		openlog('Team365', LOG_PID, LOG_LOCAL7);
 		syslog(LOG_DEBUG, 'START');
 		$this->log = new Logger('MONOLOG_TEST');
-		$this->log->pushHandler(new StreamHandler(__DIR__.'/../logs/app.log', Logger::DEBUG)); // DEBUG（最も低い）に設定
+		$this->log->pushHandler(new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG)); // DEBUG（最も低い）に設定
 
 		// usage of monolog
 		// $log->addDebug('でばっぐ');
@@ -86,6 +86,5 @@ class Main
 		} else {
 			$this->reply();
 		}
-		closelog();
 	}
 }
