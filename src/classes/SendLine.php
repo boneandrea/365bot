@@ -13,11 +13,11 @@ class SendLine
 		$this->log = $log;
 	}
 
-	public function push($to, $json)
+	public function push(string $to, array $msg)
 	{
 		$payload = [
 			'to' => $to,
-			'messages' => [$json],
+			'messages' => [$msg],
 		];
 
 		return $this->_myPost($payload, getenv('LINE_API_PUSH'));
