@@ -25,9 +25,11 @@ class Cookie
 		$this->db = new MyDB();
 	}
 
-	public function isValidInterval(array $data)
+	public function isValidInterval(array $data):bool
     {
         $uid=$data["events"][0]["source"]["userId"];
+        if(!$uid) return false;
+
 		$lastAccessTime=$this->getLastAccessTime($uid);
 
         return $this->_isEnoughInterval($lastAccessTime);
@@ -39,16 +41,16 @@ class Cookie
             return true;
 
         $interval= time() - $datetime->getTimestamp();
-        $this->log->addDebug($interval);
+        $this->log->addDebug($datetime->getTimestamp() . " / ".time(). " => ".$interval);
 
-        return time() - $datetime->getTimestamp() > $this->config['interval'];
+        return $interval > $this->config['interval'];
 	}
 
 	public function getLastAccessTime(string $uid): ?\DateTime
 	{
 		try {
-			// 選択 (プリペアドステートメント)
-			$stmt = $this->db->pdo->prepare('SELECT * FROM drink where user_id=? order by stamp limit 3');
+
+			$stmt = $this->db->pdo->prepare("SELECT id, stamp FROM drink where user_id=? order by stamp desc limit 1");
 			$stmt->execute([$uid]);
 			$rows = $stmt->fetchAll();
 			if (count($rows) === 0) {
