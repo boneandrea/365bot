@@ -50,7 +50,7 @@ class Main
 	{
 		syslog(LOG_DEBUG, 'send');
 
-		$this->bot = new Team365Bot([]);
+		$this->bot = new Team365Bot();
 
 		$to = $this->getRecipient();
 		$this->bot->pushText(

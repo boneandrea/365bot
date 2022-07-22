@@ -19,7 +19,7 @@ class Team365Bot
 	public $message;
 	private $db;
 
-	public function __construct(array $json)
+	public function __construct(array $json=[])
 	{
 		$this->msg = $json;
 
