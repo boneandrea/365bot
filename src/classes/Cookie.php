@@ -25,10 +25,21 @@ class Cookie
 		$this->db = new MyDB();
 	}
 
-	public function isEnoughInterval(?\DateTime $datetime): bool
+	public function isValidInterval(array $data)
+    {
+        $uid=$data["events"][0]["source"]["userId"];
+		$lastAccessTime=$this->getLastAccessTime($uid);
+
+        return $this->_isEnoughInterval($lastAccessTime);
+    }
+
+	public function _isEnoughInterval(?\DateTime $datetime): bool
 	{
         if($datetime === null)
             return true;
+
+        $interval= time() - $datetime->getTimestamp();
+        $this->log->addDebug($interval);
 
         return time() - $datetime->getTimestamp() > $this->config['interval'];
 	}

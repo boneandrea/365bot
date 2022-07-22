@@ -66,15 +66,18 @@ class Main
 	}
 
 	// Webhook
-	public function reply()
-	{
+	public function recv_data():array{
 		$this->verify_signature($_SERVER['HTTP_X_LINE_SIGNATURE']);
 		syslog(LOG_DEBUG, 'LINE HEADER SIGNATURE IS OK');
 
 		$json_string = file_get_contents('php://input');
 		$this->log->addDebug($json_string);
 
-		$data = json_decode($json_string, true);
+		return json_decode($json_string, true);
+    }
+	// Webhook
+	public function reply(array $data)
+	{
 		$this->bot = new Team365Bot($data);
 		$this->bot->reply();
 	}
@@ -84,7 +87,15 @@ class Main
 		if (PHP_SAPI === 'cli') {
 			$this->send_message();
 		} else {
-			$this->reply();
+            $data=$this->recv_data();
+            $cookie=new Cookie();
+
+            //$accessTime=$cookie->getLastAccessTime("U11bac06cffe164a45e0dd72c438bb68f");
+            // $cookie->isEnoughInterval($data);
+            // $this->log->addDebug('cookie:');
+            //return;
+
+			$this->reply($data);
 		}
 	}
 }
