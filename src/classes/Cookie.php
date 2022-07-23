@@ -27,7 +27,9 @@ class Cookie
 
 	public function isValidInterval(array $data):bool
     {
-        $uid=$data["events"][0]["source"]["userId"];
+        $uid=$data["source"]["userId"];
+        $this->log->addDebug(var_export($data, true));
+        $this->log->addDebug($uid);
         if(!$uid) return false;
 
 		$lastAccessTime=$this->getLastAccessTime($uid);

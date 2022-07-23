@@ -12,6 +12,11 @@ function e($e)
 	error_log(print_r($e, true));
 }
 
+function ll($s, $log)
+{
+    $log->addDebug(var_export($s, true));
+}
+
 class Team365Bot
 {
 	public $msg; // これをパースする
@@ -84,8 +89,18 @@ class Team365Bot
 		return json_decode($this->sender->getProfile($msg['source']['userId'], getenv('GROUP_ID')), true);
 	}
 
-	public function handlePostback(array $msg, string $to)
+	/**
+     *
+     * @return bool true if 応答した
+     */
+    public function handlePostback(array $msg, string $to): bool
 	{
+        $cookie=new Cookie();
+        if(!$cookie->isValidInterval($msg)){
+            ll("INVALID INTERVAL");
+            return false;
+        }
+
 		$userInfo = $this->getUserInfo($msg);
 		$name = $userInfo['displayName'];
 
@@ -100,6 +115,7 @@ class Team365Bot
 			'user_id' => $msg['source']['userId'],
 			'drink' => 1,
 		]);
+        return true;
 	}
 
 	public function checkMessageType()

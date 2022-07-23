@@ -88,13 +88,6 @@ class Main
 			$this->send_message();
 		} else {
             $data=$this->recv_data();
-            $cookie=new Cookie();
-
-            //$accessTime=$cookie->getLastAccessTime("U11bac06cffe164a45e0dd72c438bb68f");
-            // $cookie->isEnoughInterval($data);
-            // $this->log->addDebug('cookie:');
-            //return;
-
 			$this->reply($data);
 		}
 	}

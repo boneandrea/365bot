@@ -1,25 +1,18 @@
 {
-    "destination":"U31be3e13387f36adb61d34b8899bf88d",
-    "events":[
-        {
-            "type":"message",
-            "message":{
-                "type":"text",
-                "id":"16476484947065",
-                "text":"QOL下げると心が貧しくなるしなぁ"
-            },
-            "webhookEventId":"01G8K2X7RJNYVP6FAC31H8WCZX",
-            "deliveryContext":{
-                "isRedelivery":false
-            },
-            "timestamp":1658497965331,
-            "source":{
-                "type":"group",
-                "groupId":"C7d5fe41da5e346435863ef60dc2f8661",
-                "userId":"__not__exists__in__db__"
-            },
-            "replyToken":"d73513f2e54041dfb7ff2ecd602b2108",
-            "mode":"active"
-        }
-    ]
+    "type" : "postback",
+    "postback" : {
+        "data" : "no"
+    },
+    "webhookEventId" : "01G8M5B92ZQ6DCXZ3V2P63VRRT",
+    "deliveryContext" : {
+        "isRedelivery" : false
+    },
+    "timestamp" : 1658534077259,
+    "source" : {
+        "type" : "group",
+        "groupId" : "C7d5fe41da5e346435863ef60dc2f8661",
+        "userId":"__not__exists__in__db__"
+    },
+    "replyToken" : "3303f82c8a794edfae5d3e92ab20b401",
+    "mode" : "active"
 }
