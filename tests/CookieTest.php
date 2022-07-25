@@ -70,6 +70,7 @@ class CookieTest extends TestCase
      */
     public function testMessage3(int $interval, bool $status)
 	{
+        // @TODO: テスト用DBの整備
         $this->markTestSkipped();
 		try {
 			$stmt = $this->db->pdo->prepare('UPDATE drink set stamp=? where id=381');
