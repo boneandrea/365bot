@@ -35,7 +35,7 @@ class Team365Bot
 		$this->log->pushHandler($handler);
 
 		// setup message
-		$this->message = json_decode(file_get_contents(__DIR__.'/message.json'), true);
+		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
 
 		// setup db acccesor
 		$this->db = new MyDB();
@@ -105,9 +105,9 @@ class Team365Bot
 		$name = $userInfo['displayName'];
 
 		if ($msg['postback']['data'] === 'yes') {
-			$reply = "hey $name, ".$this->message['GOOD'];
+			$reply = "hey $name, ".$this->patterns['GOOD'];
 		} elseif ($msg['postback']['data'] === 'no') {
-			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->message['NOGOOD'];
+			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns['NOGOOD'];
 		}
 		$ret = $this->sender->pushText($to, $reply);
 
@@ -131,24 +131,25 @@ class Team365Bot
 
 	public function createMessage($text)
 	{
-		if (preg_match('/別にない/', $text)) {
-			return $this->message['KR1'];
-		} elseif (preg_match('/文句がある/', $text)) {
-			return $this->message['KR2'];
-		} elseif (preg_match('/365/', $text)) {
-			return $this->message['DEF365'];
-		} elseif (preg_match('/KR/i', $text)) {
+        foreach($this->patterns["words"] as $w){
+            $regexp="/".$w["key"]."/";
+            if (preg_match($regexp, $text)) {
+                return $w["value"];
+            }
+		}
+
+        if (preg_match('/KR/i', $text)) {
 			return [
 				'type' => 'flex',
-				'altText' => $this->message['KR3'],
+				'altText' => $this->patterns["static_words"]['KR3'],
 				'contents' => json_decode(file_get_contents('messages/json/kuri.json'), true),
 			];
-		} elseif (preg_match('/綾馬場/', $text)) {
-			return $this->message['AYB1'];
-		} elseif (preg_match('/ああああ/', $text)) {
+		}
+
+        if (preg_match('/ああああ/', $text)) {
 			return [
 				'type' => 'flex',
-				'altText' => $this->message['TIME'],
+				'altText' => $this->patterns["static_words"]['TIME'],
 				'contents' => json_decode(file_get_contents('messages/json/hello.json'), true),
 			];
 		}
