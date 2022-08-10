@@ -22,6 +22,7 @@ class Team365Bot
 	public $msg; // これをパースする
 	public $sender;
 	public $message;
+	public $cookie;
 	private $db;
 
 	public function __construct(array $json=[])
@@ -33,6 +34,7 @@ class Team365Bot
 		$this->sender = new SendLine($this->log);
 		$handler = new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG);
 		$this->log->pushHandler($handler);
+        $this->cookie=new Cookie();
 
 		// setup message
 		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
@@ -95,9 +97,8 @@ class Team365Bot
      */
     public function handlePostback(array $msg, string $to): bool
 	{
-        $cookie=new Cookie();
-        if(!$cookie->isValidInterval($msg)){
-            ll("INVALID INTERVAL");
+        if(!$this->cookie->isValidInterval($msg)){
+            e("INVALID INTERVAL");
             return false;
         }
 
@@ -105,9 +106,9 @@ class Team365Bot
 		$name = $userInfo['displayName'];
 
 		if ($msg['postback']['data'] === 'yes') {
-			$reply = "hey $name, ".$this->patterns['GOOD'];
+			$reply = "hey $name, ".$this->patterns["static_words"]['GOOD'];
 		} elseif ($msg['postback']['data'] === 'no') {
-			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns['NOGOOD'];
+			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns["static_words"]['NOGOOD'];
 		}
 		$ret = $this->sender->pushText($to, $reply);
 

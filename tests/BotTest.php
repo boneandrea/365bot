@@ -77,7 +77,117 @@ class BotTest extends TestCase
 			],
 			'destination' => 'destination',
 		];
-		$this->assertEquals('user', $this->bot->checkMessageType());
+
+		$messageType= $this->bot->checkMessageType();
+		$this->assertEquals('user', $messageType);
+	}
+
+	public function testHandlePostbackYES()
+	{
+        // SomeClass クラスのスタブを作成します
+        $cookie = $this->createStub(Cookie::class);
+
+        // スタブの設定を行います
+        $cookie->method('isValidInterval')
+               ->will($this->returnValue(true));
+        // Observer クラスのモックを作成します。
+        // pushText() メソッドのみのモックです。
+
+        $sender = $this->createStub(SendLine::class);
+        $sender->method('pushText')
+               ->will($this->returnValue([
+                   'status' => 200,
+                   'body' => []
+               ]));
+        $sender->method('getProfile')
+               ->will($this->returnValue(json_encode(["displayName"=>"name"])));
+
+        // pushText() メソッドが一度だけコールされ、その際の
+        // パラメータは文字列 'something' となる、
+        // ということを期待しています。
+        $sender->expects($this->once())
+                 ->method('pushText')
+                 ->with($this->equalTo('nice name'));
+
+        // モックをアタッチします。
+        $this->bot->sender=$sender;
+        $this->bot->cookie=$cookie;
+
+		$msg = [
+            "type" => "postback",
+            'postback' => [
+                'data' => 'yes'
+            ],
+            "webhookEventId" => '01GA2NKE5V6TAX36NEWA5JT19V',
+            "deliveryContext" =>       [
+                "isRedelivery" => ""
+            ],
+            "timestamp" => 1660094625831,
+            "source" => [
+                "type" => "group",
+                "groupId" => 'C7d5fe41da5e346435863ef60dc2f8661',
+                "userId" => "U11bac06cffe164a45e0dd72c438bb68f",
+            ],
+
+            "replyToken" => "af4288e0529a4dd088207beba81c3684",
+            "mode" => "active",
+		];
+
+        $this->bot->handlePostback($msg, "nice name");
+	}
+
+	public function testHandlePostbackNO()
+	{
+        // SomeClass クラスのスタブを作成します
+        $cookie = $this->createStub(Cookie::class);
+
+        // スタブの設定を行います
+        $cookie->method('isValidInterval')
+               ->will($this->returnValue(true));
+        // Observer クラスのモックを作成します。
+        // pushText() メソッドのみのモックです。
+
+        $sender = $this->createStub(SendLine::class);
+        $sender->method('pushText')
+               ->will($this->returnValue([
+                   'status' => 200,
+                   'body' => []
+               ]));
+        $sender->method('getProfile')
+               ->will($this->returnValue(json_encode(["displayName"=>"name"])));
+
+        // pushText() メソッドが一度だけコールされ、その際の
+        // パラメータは文字列 'something' となる、
+        // ということを期待しています。
+        $sender->expects($this->once())
+                 ->method('pushText')
+                 ->with($this->equalTo('nice name'));
+
+        // モックをアタッチします。
+        $this->bot->sender=$sender;
+        $this->bot->cookie=$cookie;
+
+		$msg = [
+            "type" => "postback",
+            'postback' => [
+                'data' => 'no'
+            ],
+            "webhookEventId" => '01GA2NKE5V6TAX36NEWA5JT19V',
+            "deliveryContext" =>       [
+                "isRedelivery" => ""
+            ],
+            "timestamp" => 1660094625831,
+            "source" => [
+                "type" => "group",
+                "groupId" => 'C7d5fe41da5e346435863ef60dc2f8661',
+                "userId" => "U11bac06cffe164a45e0dd72c438bb68f",
+            ],
+
+            "replyToken" => "af4288e0529a4dd088207beba81c3684",
+            "mode" => "active",
+		];
+
+        $this->bot->handlePostback($msg, "nice name");
 	}
 
 	public function testCheckMessageTypeGroup()
