@@ -119,15 +119,17 @@ class Team365Bot
         return true;
 	}
 
-	public function checkMessageType()
+	public function checkMessageType(): string
 	{
 		if ($this->msg['events'][0]['type'] === 'postback') {
 			return 'postback';
-		} elseif (isset($this->msg['events'][0]['source']['groupId'])) {
-			return 'group';
-		} else {
-			return 'user';
 		}
+
+        if (isset($this->msg['events'][0]['source']['groupId'])) {
+			return 'group';
+		}
+
+        return 'user';
 	}
 
 	public function createMessage($text)
