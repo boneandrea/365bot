@@ -4,6 +4,9 @@ namespace Util;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
+define("QUEUE","USER_POSTS");
+
+use Dotenv\Dotenv;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Predis\Client;
@@ -13,22 +16,21 @@ function e($e)
 	error_log(print_r($e, true));
 }
 
-function ll($s, $log)
+class Reply
 {
-    $log->addDebug(var_export($s, true));
-}
-
-class Team365Bot
-{
+    //$client = new Predis\Client();
 	public $msg; // これをパースする
 	public $sender;
 	public $message;
 	public $cookie;
 	private $db;
 
-	public function __construct(array $json=[])
+	public function __construct()
 	{
-		$this->msg = $json;
+		$dotenv = Dotenv::create(__DIR__.'/../..');
+		$dotenv->load();
+
+		define('IS_PRD', getenv('MODE') === 'prod');
 
 		// setup log
 		$this->log = new Logger('MONOLOG_TEST');
@@ -43,6 +45,26 @@ class Team365Bot
 		// setup db acccesor
 		$this->db = new MyDB();
 	}
+
+    function ll($s)
+    {
+        $this->log->addDebug(var_export($s, true));
+    }
+
+	public function execute(): void
+	{
+        $this->pop();
+    }
+
+    public function pop(){
+        $client = new Client();
+
+        while(($post = $client->rpop(QUEUE))){
+            e($post);
+            if(empty($post)) break;
+            $this->reply(json_decode($post, true));
+        }
+    }
 
 	/**
 	 * 誰に送る.
@@ -61,20 +83,14 @@ class Team365Bot
 	}
 
 	// なんか考えてリプライする
-	public function reply(): void
+	public function reply(array $msg): void
 	{
+		$this->msg = $msg;
+        $this->ll($msg);
 		$this->log->addDebug($this->checkMessageType());
 
 		$type = $this->checkMessageType();
 		$to = $this->setRecipient($type);
-
-        if(1){
-            define("QUEUE","USER_POSTS");
-            $client = new Client();
-            e($this->msg);
-            $client->rpush(QUEUE, json_encode($this->msg));
-            return;
-        }
 
 		e($this->msg['events'][0]);
 		if ($type === 'postback') {
@@ -154,7 +170,7 @@ class Team365Bot
 			return [
 				'type' => 'flex',
 				'altText' => $this->patterns["static_words"]['KR3'],
-				'contents' => json_decode(file_get_contents('messages/json/kuri.json'), true),
+				'contents' => json_decode(file_get_contents(__DIR__.'/../../messages/json/kuri.json'), true),
 			];
 		}
 
@@ -162,7 +178,7 @@ class Team365Bot
 			return [
 				'type' => 'flex',
 				'altText' => $this->patterns["static_words"]['TIME'],
-				'contents' => json_decode(file_get_contents('messages/json/hello.json'), true),
+				'contents' => json_decode(file_get_contents(__DIR__.'/../../messages/json/hello.json'), true),
 			];
 		}
 

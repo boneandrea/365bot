@@ -13,7 +13,7 @@ class MyDB
 	public function __construct()
 	{
 		try {        // 接続
-			$pdo = new PDO('sqlite:'.$this->dbname);
+			$pdo = new PDO('sqlite:'.__DIR__."/../../".$this->dbname);
 
 			// SQL実行時にもエラーの代わりに例外を投げるように設定
 			// (毎回if文を書く必要がなくなる)

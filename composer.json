@@ -4,7 +4,8 @@
     "vlucas/phpdotenv": "^3.3",
     "phpunit/phpunit": "^9.5",
     "friendsofphp/php-cs-fixer": "^2.14",
-    "nanasess/php8-compat": "^1.0"
+    "nanasess/php8-compat": "^1.0",
+    "predis/predis": "^2.0"
   },
   "autoload": {
     "psr-4": {
