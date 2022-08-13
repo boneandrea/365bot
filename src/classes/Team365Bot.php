@@ -63,69 +63,20 @@ class Team365Bot
 	// なんか考えてリプライする
 	public function reply(): void
 	{
-		$this->log->addDebug($this->checkMessageType());
 
 		$type = $this->checkMessageType();
+		$this->log->addDebug($type);
 		$to = $this->setRecipient($type);
 
-        if(1){
-            define("QUEUE","USER_POSTS");
-            $client = new Client();
-            e($this->msg);
-            $client->rpush(QUEUE, json_encode($this->msg));
-            return;
-        }
-
-		e($this->msg['events'][0]);
-		if ($type === 'postback') {
-			$msg = $this->handlePostback($this->msg['events'][0], $to);
-		} else {
-			$text = $this->msg['events'][0]['message']['text'] ?? '';
-			$msg = $this->createMessage($text);
-		}
-
-		e(print_r($msg, true));
-
-		if (is_array($msg)) {
-			$ret = $this->sender->push($to, $msg);
-		} elseif (is_string($msg)) {
-			$ret = $this->sender->pushText($to, $msg);
-		} else {
-			$ret = ['status' => 400];
-		}
+        define("QUEUE","USER_POSTS");
+        $client = new Client();
+        e($this->msg);
+        $client->rpush(QUEUE, json_encode($this->msg));
 	}
 
 	public function getUserInfo(array $msg): array
 	{
 		return json_decode($this->sender->getProfile($msg['source']['userId'], getenv('GROUP_ID')), true);
-	}
-
-	/**
-     *
-     * @return bool true if 応答した
-     */
-    public function handlePostback(array $msg, string $to): bool
-	{
-        if(!$this->cookie->isValidInterval($msg)){
-            e("INVALID INTERVAL");
-            return false;
-        }
-
-		$userInfo = $this->getUserInfo($msg);
-		$name = $userInfo['displayName'];
-
-		if ($msg['postback']['data'] === 'yes') {
-			$reply = "hey $name, ".$this->patterns["static_words"]['GOOD'];
-		} elseif ($msg['postback']['data'] === 'no') {
-			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns["static_words"]['NOGOOD'];
-		}
-		$ret = $this->sender->pushText($to, $reply);
-
-		$this->db->insertDrink([
-			'user_id' => $msg['source']['userId'],
-			'drink' => 1,
-		]);
-        return true;
 	}
 
 	public function checkMessageType(): string
@@ -139,43 +90,5 @@ class Team365Bot
 		}
 
         return 'user';
-	}
-
-	public function createMessage($text)
-	{
-        foreach($this->patterns["words"] as $w){
-            $regexp="/".$w["key"]."/";
-            if (preg_match($regexp, $text)) {
-                return $w["value"];
-            }
-		}
-
-        if (preg_match('/KR/i', $text)) {
-			return [
-				'type' => 'flex',
-				'altText' => $this->patterns["static_words"]['KR3'],
-				'contents' => json_decode(file_get_contents('messages/json/kuri.json'), true),
-			];
-		}
-
-        if (preg_match('/ああああ/', $text)) {
-			return [
-				'type' => 'flex',
-				'altText' => $this->patterns["static_words"]['TIME'],
-				'contents' => json_decode(file_get_contents('messages/json/hello.json'), true),
-			];
-		}
-
-		return null;
-	}
-
-	public function push($to, $msg)
-	{
-		$this->sender->push($to, $msg);
-	}
-
-	public function pushText($to, $text)
-	{
-		$this->sender->pushText($to, $text);
 	}
 }

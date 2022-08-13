@@ -12,6 +12,7 @@
 namespace Util;
 
 require_once __DIR__.'/../../vendor/autoload.php';
+require_once "const.php";
 
 use Util\Reply;
 

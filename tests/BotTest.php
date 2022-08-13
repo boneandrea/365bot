@@ -5,6 +5,8 @@ namespace Util;
 require_once __DIR__.'/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
+use Util\Reply;
+require_once __DIR__."/../src/classes/const.php";
 
 class BotTest extends TestCase
 {
@@ -25,7 +27,7 @@ class BotTest extends TestCase
 			'destination' => 'destination',
 		];
 
-		$this->bot = new Team365Bot($obj);
+		$this->bot = new Reply();
 	}
 
 	public function testCreateMessage365()

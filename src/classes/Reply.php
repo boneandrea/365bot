@@ -27,11 +27,6 @@ class Reply
 
 	public function __construct()
 	{
-		$dotenv = Dotenv::create(__DIR__.'/../..');
-		$dotenv->load();
-
-		define('IS_PRD', getenv('MODE') === 'prod');
-
 		// setup log
 		$this->log = new Logger('MONOLOG_TEST');
 		$this->sender = new SendLine($this->log);
