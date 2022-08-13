@@ -171,7 +171,7 @@ class Reply
 				'IMG_20220813_123205.jpg',
 			];
 
-			$content['hero']['url'] = 'https://peixe.biz/hook/www/img/'.$imgs[rand(0, count($imgs))];
+			$content['hero']['url'] = 'https://peixe.biz/hook/www/img/'.$imgs[rand(0, count($imgs) - 1)];
 
 			return [
 				'type' => 'flex',
