@@ -44,51 +44,13 @@ class Team365Bot
 		$this->db = new MyDB();
 	}
 
-	/**
-	 * 誰に送る.
-	 *
-	 * @param string $type
-	 *
-	 * @return string MessagingAPIで使う送信先ID
-	 */
-	public function setRecipient($type)
-	{
-		if (IS_PRD) {
-			return ($type === 'user') ? getenv('TO_USER_ID') : getenv('GROUP_ID');
-		} else {
-			return getenv('TO_USER_ID');
-		}
-	}
-
-	// なんか考えてリプライする
+	// キューに投入して終了
 	public function reply(): void
 	{
-
-		$type = $this->checkMessageType();
-		$this->log->addDebug($type);
-		$to = $this->setRecipient($type);
-
         define("QUEUE","USER_POSTS");
         $client = new Client();
         e($this->msg);
         $client->rpush(QUEUE, json_encode($this->msg));
-	}
-
-	public function getUserInfo(array $msg): array
-	{
-		return json_decode($this->sender->getProfile($msg['source']['userId'], getenv('GROUP_ID')), true);
-	}
-
-	public function checkMessageType(): string
-	{
-		if ($this->msg['events'][0]['type'] === 'postback') {
-			return 'postback';
-		}
-
-        if (isset($this->msg['events'][0]['source']['groupId'])) {
-			return 'group';
-		}
-
-        return 'user';
+        $client->disconnect();
 	}
 }
