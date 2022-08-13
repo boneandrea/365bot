@@ -162,10 +162,18 @@ class Reply
 		}
 
         if (preg_match('/KR/i', $text)) {
+            $content = $this->getMessageJson('kuri.json');
+            $imgs=[
+                "356a192b7913b04c54574d18c28d46e6395428ab.png",
+                "IMG_20220813_123205.jpg"
+            ];
+
+            $content["hero"]["url"]="https://peixe.biz/hook/www/img/".$imgs[rand(0,count($imgs))];
+
 			return [
 				'type' => 'flex',
 				'altText' => $this->patterns["static_words"]['KR3'],
-				'contents' => json_decode(file_get_contents(__DIR__.'/../../messages/json/kuri.json'), true),
+				'contents' => $content,
 			];
 		}
 
@@ -173,7 +181,7 @@ class Reply
 			return [
 				'type' => 'flex',
 				'altText' => $this->patterns["static_words"]['TIME'],
-				'contents' => json_decode(file_get_contents(__DIR__.'/../../messages/json/hello.json'), true),
+				'contents' => $this->getMessageJson('hello.json'),
 			];
 		}
 
@@ -189,4 +197,9 @@ class Reply
 	{
 		$this->sender->pushText($to, $text);
 	}
+
+    public function getMessageJson(string $filename):array
+    {
+        return json_decode(file_get_contents(__DIR__.'/../../messages/json/'.$filename), true);
+    }
 }
