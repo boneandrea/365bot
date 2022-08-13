@@ -1,6 +1,7 @@
 <?php
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
+
     ->setIndent("\t")
     ->setRules([
         '@PSR2' => true,

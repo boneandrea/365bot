@@ -4,9 +4,8 @@ namespace Util;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
-define("QUEUE","USER_POSTS");
+define('QUEUE', 'USER_POSTS');
 
-use Dotenv\Dotenv;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Predis\Client;
@@ -18,7 +17,7 @@ function e($e)
 
 class Reply
 {
-    //$client = new Predis\Client();
+	// $client = new Predis\Client();
 	public $msg; // これをパースする
 	public $sender;
 	public $message;
@@ -32,7 +31,7 @@ class Reply
 		$this->sender = new SendLine($this->log);
 		$handler = new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG);
 		$this->log->pushHandler($handler);
-        $this->cookie=new Cookie();
+		$this->cookie = new Cookie();
 
 		// setup message
 		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
@@ -41,25 +40,28 @@ class Reply
 		$this->db = new MyDB();
 	}
 
-    function ll($s)
-    {
-        $this->log->addDebug(var_export($s, true));
-    }
+	public function ll($s)
+	{
+		$this->log->addDebug(var_export($s, true));
+	}
 
 	public function execute(): void
 	{
-        $this->pop();
-    }
+		$this->pop();
+	}
 
-    public function pop(){
-        $client = new Client();
+	public function pop()
+	{
+		$client = new Client();
 
-        while(($post = $client->rpop(QUEUE))){
-            e($post);
-            if(empty($post)) break;
-            $this->reply(json_decode($post, true));
-        }
-    }
+		while ($post = $client->rpop(QUEUE)) {
+			e($post);
+			if (empty($post)) {
+				break;
+			}
+			$this->reply(json_decode($post, true));
+		}
+	}
 
 	/**
 	 * 誰に送る.
@@ -81,7 +83,7 @@ class Reply
 	public function reply(array $msg): void
 	{
 		$this->msg = $msg;
-        $this->ll($msg);
+		$this->ll($msg);
 		$this->log->addDebug($this->checkMessageType());
 
 		$type = $this->checkMessageType();
@@ -112,23 +114,23 @@ class Reply
 	}
 
 	/**
-     *
-     * @return bool true if 応答した
-     */
-    public function handlePostback(array $msg, string $to): bool
+	 * @return bool true if 応答した
+	 */
+	public function handlePostback(array $msg, string $to): bool
 	{
-        if(!$this->cookie->isValidInterval($msg)){
-            e("INVALID INTERVAL");
-            return false;
-        }
+		if (!$this->cookie->isValidInterval($msg)) {
+			e('INVALID INTERVAL');
+
+			return false;
+		}
 
 		$userInfo = $this->getUserInfo($msg);
 		$name = $userInfo['displayName'];
 
 		if ($msg['postback']['data'] === 'yes') {
-			$reply = "hey $name, ".$this->patterns["static_words"]['GOOD'];
+			$reply = "hey $name, ".$this->patterns['static_words']['GOOD'];
 		} elseif ($msg['postback']['data'] === 'no') {
-			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns["static_words"]['NOGOOD'];
+			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns['static_words']['NOGOOD'];
 		}
 		$ret = $this->sender->pushText($to, $reply);
 
@@ -136,7 +138,8 @@ class Reply
 			'user_id' => $msg['source']['userId'],
 			'drink' => 1,
 		]);
-        return true;
+
+		return true;
 	}
 
 	public function checkMessageType(): string
@@ -145,42 +148,42 @@ class Reply
 			return 'postback';
 		}
 
-        if (isset($this->msg['events'][0]['source']['groupId'])) {
+		if (isset($this->msg['events'][0]['source']['groupId'])) {
 			return 'group';
 		}
 
-        return 'user';
+		return 'user';
 	}
 
 	public function createMessage($text)
 	{
-        foreach($this->patterns["words"] as $w){
-            $regexp="/".$w["key"]."/";
-            if (preg_match($regexp, $text)) {
-                return $w["value"];
-            }
+		foreach ($this->patterns['words'] as $w) {
+			$regexp = '/'.$w['key'].'/';
+			if (preg_match($regexp, $text)) {
+				return $w['value'];
+			}
 		}
 
-        if (preg_match('/KR/i', $text)) {
-            $content = $this->getMessageJson('kuri.json');
-            $imgs=[
-                "356a192b7913b04c54574d18c28d46e6395428ab.png",
-                "IMG_20220813_123205.jpg"
-            ];
+		if (preg_match('/KR/i', $text)) {
+			$content = $this->getMessageJson('kuri.json');
+			$imgs = [
+				'356a192b7913b04c54574d18c28d46e6395428ab.png',
+				'IMG_20220813_123205.jpg',
+			];
 
-            $content["hero"]["url"]="https://peixe.biz/hook/www/img/".$imgs[rand(0,count($imgs))];
+			$content['hero']['url'] = 'https://peixe.biz/hook/www/img/'.$imgs[rand(0, count($imgs))];
 
 			return [
 				'type' => 'flex',
-				'altText' => $this->patterns["static_words"]['KR3'],
+				'altText' => $this->patterns['static_words']['KR3'],
 				'contents' => $content,
 			];
 		}
 
-        if (preg_match('/ああああ/', $text)) {
+		if (preg_match('/ああああ/', $text)) {
 			return [
 				'type' => 'flex',
-				'altText' => $this->patterns["static_words"]['TIME'],
+				'altText' => $this->patterns['static_words']['TIME'],
 				'contents' => $this->getMessageJson('hello.json'),
 			];
 		}
@@ -198,8 +201,8 @@ class Reply
 		$this->sender->pushText($to, $text);
 	}
 
-    public function getMessageJson(string $filename):array
-    {
-        return json_decode(file_get_contents(__DIR__.'/../../messages/json/'.$filename), true);
-    }
+	public function getMessageJson(string $filename): array
+	{
+		return json_decode(file_get_contents(__DIR__.'/../../messages/json/'.$filename), true);
+	}
 }

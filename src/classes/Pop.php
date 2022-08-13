@@ -1,4 +1,5 @@
 <?php
+
 //
 // グループ内投稿を順に読み取り、処理する
 // 処理：応答 or 捨てる
@@ -12,8 +13,6 @@
 namespace Util;
 
 require_once __DIR__.'/../../vendor/autoload.php';
-require_once "const.php";
-
-use Util\Reply;
+require_once 'const.php';
 
 (new Reply())->execute();

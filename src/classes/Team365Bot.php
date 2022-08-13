@@ -15,7 +15,7 @@ function e($e)
 
 function ll($s, $log)
 {
-    $log->addDebug(var_export($s, true));
+	$log->addDebug(var_export($s, true));
 }
 
 class Team365Bot
@@ -26,7 +26,7 @@ class Team365Bot
 	public $cookie;
 	private $db;
 
-	public function __construct(array $json=[])
+	public function __construct(array $json = [])
 	{
 		$this->msg = $json;
 
@@ -35,7 +35,7 @@ class Team365Bot
 		$this->sender = new SendLine($this->log);
 		$handler = new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG);
 		$this->log->pushHandler($handler);
-        $this->cookie=new Cookie();
+		$this->cookie = new Cookie();
 
 		// setup message
 		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
@@ -47,10 +47,10 @@ class Team365Bot
 	// キューに投入して終了
 	public function reply(): void
 	{
-        define("QUEUE","USER_POSTS");
-        $client = new Client();
-        e($this->msg);
-        $client->rpush(QUEUE, json_encode($this->msg));
-        $client->disconnect();
+		define('QUEUE', 'USER_POSTS');
+		$client = new Client();
+		e($this->msg);
+		$client->rpush(QUEUE, json_encode($this->msg));
+		$client->disconnect();
 	}
 }

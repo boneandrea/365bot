@@ -36,7 +36,7 @@ class Main
 	// TODO: verify
 	public function verify_signature($sign)
 	{
-		//$this->log->addDebug("HTTP_X_LINE_SIGNATURE: ".$sign);
+		// $this->log->addDebug("HTTP_X_LINE_SIGNATURE: ".$sign);
 		return true;
 	}
 
@@ -66,7 +66,8 @@ class Main
 	}
 
 	// Webhook
-	public function recv_data():array{
+	public function recv_data(): array
+	{
 		$this->verify_signature($_SERVER['HTTP_X_LINE_SIGNATURE']);
 		syslog(LOG_DEBUG, 'LINE HEADER SIGNATURE IS OK');
 
@@ -74,7 +75,8 @@ class Main
 		$this->log->addDebug($json_string);
 
 		return json_decode($json_string, true);
-    }
+	}
+
 	// Webhook
 	public function reply(array $data)
 	{
@@ -87,7 +89,7 @@ class Main
 		if (PHP_SAPI === 'cli') {
 			$this->send_message();
 		} else {
-            $data=$this->recv_data();
+			$data = $this->recv_data();
 			$this->reply($data);
 		}
 	}
