@@ -33,7 +33,7 @@ class Team365Bot
 	{
 		define('QUEUE', 'USER_POSTS');
 		$client = new Client();
-		error_log($this->msg);
+		error_log(print_r($this->msg, true));
 		$client->rpush(QUEUE, json_encode($this->msg));
 		$client->disconnect();
 	}

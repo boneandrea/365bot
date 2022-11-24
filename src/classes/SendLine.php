@@ -6,8 +6,6 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 class SendLine
 {
-	public $log; // これをパースする
-
 	public function __construct()
 	{
 	}

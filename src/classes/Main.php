@@ -4,39 +4,21 @@ namespace Util;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
-use Dotenv\Dotenv;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-
 class Main
 {
 	private $bot;
 
 	public function __construct()
 	{
-		$dotenv = Dotenv::create(__DIR__.'/../..');
-		$dotenv->load();
-
 		define('IS_PRD', getenv('MODE') === 'prod');
 
-		openlog('Team365', LOG_PID, LOG_LOCAL7);
 		error_log('START');
-		$this->log = new Logger('MONOLOG_TEST');
-		$this->log->pushHandler(new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG)); // DEBUG（最も低い）に設定
-
-		// usage of monolog
-		// $log->addDebug('でばっぐ');
-		// $log->addInfo('いんふぉ');
-		// $log->addWarning('わーにんぐ');
-		// $log->addError('えらー');
-
-		$this->log->addDebug('start '.(IS_PRD ? 'PRD' : 'dev'));
+        error_log(getenv("MYSQLPASSWORD"));
 	}
 
 	// TODO: verify
 	public function verify_signature($sign)
 	{
-		// $this->log->addDebug("HTTP_X_LINE_SIGNATURE: ".$sign);
 		return true;
 	}
 
@@ -73,7 +55,6 @@ class Main
 
 		$json_string = file_get_contents('php://input');
         error_log($json_string);
-		$this->log->addDebug($json_string);
 
 		return json_decode($json_string, true) ?? [];
 	}
