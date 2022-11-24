@@ -20,7 +20,7 @@ class Main
 		define('IS_PRD', getenv('MODE') === 'prod');
 
 		openlog('Team365', LOG_PID, LOG_LOCAL7);
-		syslog(LOG_DEBUG, 'START');
+		error_log('START');
 		$this->log = new Logger('MONOLOG_TEST');
 		$this->log->pushHandler(new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG)); // DEBUG（最も低い）に設定
 
@@ -48,7 +48,7 @@ class Main
 	// shell実行、時報
 	public function send_message()
 	{
-		syslog(LOG_DEBUG, 'send');
+		error_log('send');
 
 		$this->bot = new Team365Bot();
 
@@ -68,13 +68,14 @@ class Main
 	// Webhook
 	public function recv_data(): array
 	{
-		$this->verify_signature($_SERVER['HTTP_X_LINE_SIGNATURE']);
-		syslog(LOG_DEBUG, 'LINE HEADER SIGNATURE IS OK');
+		$this->verify_signature($_SERVER['HTTP_X_LINE_SIGNATURE'] ?? "");
+		error_log('LINE HEADER SIGNATURE IS OK');
 
 		$json_string = file_get_contents('php://input');
+        error_log($json_string);
 		$this->log->addDebug($json_string);
 
-		return json_decode($json_string, true);
+		return json_decode($json_string, true) ?? [];
 	}
 
 	// Webhook

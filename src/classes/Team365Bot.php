@@ -4,19 +4,7 @@ namespace Util;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Predis\Client;
-
-function e($e)
-{
-	error_log(print_r($e, true));
-}
-
-function ll($s, $log)
-{
-	$log->addDebug(var_export($s, true));
-}
 
 class Team365Bot
 {
@@ -30,11 +18,7 @@ class Team365Bot
 	{
 		$this->msg = $json;
 
-		// setup log
-		$this->log = new Logger('MONOLOG_TEST');
-		$this->sender = new SendLine($this->log);
-		$handler = new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG);
-		$this->log->pushHandler($handler);
+		$this->sender = new SendLine();
 		$this->cookie = new Cookie();
 
 		// setup message
@@ -49,7 +33,7 @@ class Team365Bot
 	{
 		define('QUEUE', 'USER_POSTS');
 		$client = new Client();
-		e($this->msg);
+		error_log($this->msg);
 		$client->rpush(QUEUE, json_encode($this->msg));
 		$client->disconnect();
 	}

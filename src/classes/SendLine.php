@@ -8,9 +8,8 @@ class SendLine
 {
 	public $log; // これをパースする
 
-	public function __construct($log)
+	public function __construct()
 	{
-		$this->log = $log;
 	}
 
 	public function push(string $to, array $msg)
@@ -54,12 +53,12 @@ class SendLine
 		$httpcode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 		curl_close($ch);
 
-		syslog(LOG_DEBUG, $httpcode.':'.$ret);
+		error_log($httpcode.':'.$ret);
 
 		if ($httpcode) {
-			syslog(LOG_DEBUG, '送信成功');
+			error_log('送信成功');
 		} else {
-			syslog(LOG_DEBUG, '送信失敗');
+			error_log('送信失敗');
 		}
 
 		return ['status' => $httpcode, 'body' => $ret];
