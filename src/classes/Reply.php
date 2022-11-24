@@ -15,9 +15,9 @@ class Reply
 	public $cookie;
 	private $db;
 
-	public function __construct()
+	public function __construct(array $msg)
 	{
-		// setup log
+		$this->msg = $msg;
 		$this->sender = new SendLine();
 		$this->cookie = new Cookie();
 
@@ -26,11 +26,6 @@ class Reply
 
 		// setup db acccesor
 		$this->db = new MyDB();
-	}
-
-	public function execute(array $post): void
-	{
-        $this->reply($post);
 	}
 
 	/**
@@ -50,10 +45,10 @@ class Reply
 	}
 
 	// なんか考えてリプライする
-	public function reply(array $msg): void
+	public function reply(): void
 	{
-		$this->msg = $msg;
-		e($msg);
+		e("++++++++++++++++++++++++++++++++");
+		e($this->msg);
 		e($this->checkMessageType());
 
 		$type = $this->checkMessageType();
