@@ -17,6 +17,35 @@ class Reply
 
 	public function __construct(array $msg)
 	{
+
+        $msg=[
+            "destination" => "U31be3e13387f36adb61d34b8899bf88d",
+            "events" => Array
+            (
+                0 => Array
+                (
+                    "type" => "postback",
+                    "postback" => Array
+                    (
+                        "data" => "no",
+                    ),
+                    "webhookEventId" => "01GJN4TT6ME599BDTF63RP8KNC",
+                    "deliveryContext" => Array
+                    (
+                        "isRedelivery" =>"",
+                    ),
+                    "timestamp" => 1669304510175,
+                    "source" => Array
+                    (
+                        "type" => "group",
+                        "groupId" => "C7d5fe41da5e346435863ef60dc2f8661",
+                        "userId" => "U11bac06cffe164a45e0dd72c438bb68f",
+                    ),
+                    "replyToken" => "ea6fa2a9247242c1b7d54f71bc98531e",
+                    "mode" => "active",
+                )
+            )
+        ];
 		$this->msg = $msg;
 		$this->sender = new SendLine();
 		$this->cookie = new Cookie();
@@ -49,6 +78,9 @@ class Reply
 	{
 		e("++++++++++++++++++++++++++++++++");
 		e($this->msg);
+		e($this->checkMessageType());
+		e($this->checkMessageType());
+		e($this->checkMessageType());
 		e($this->checkMessageType());
 
 		$type = $this->checkMessageType();
