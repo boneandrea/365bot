@@ -12,7 +12,7 @@ use Predis\Client;
 
 function e($e)
 {
-	error_log(print_r($e, true));
+	e(print_r($e, true));
 }
 
 class Reply

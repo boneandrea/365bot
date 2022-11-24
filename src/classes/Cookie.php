@@ -63,7 +63,7 @@ class Cookie
 
 			return new \DateTime($rows[0]['stamp']);
 		} catch (Exception $e) {
-			error_log($e->getMessage());
+			e($e->getMessage());
 		}
 		foreach ($rows as $r) {
 			$this->log->addDebug(var_export($r, true));

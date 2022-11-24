@@ -11,7 +11,7 @@ class Main
 	public function __construct()
 	{
 		define('IS_PRD', getenv('MODE') === 'prod');
-		error_log('START');
+		e('START');
 	}
 
 	// TODO: verify
@@ -28,7 +28,7 @@ class Main
 	// shell実行、時報
 	public function send_message()
 	{
-		error_log('send');
+		e('send');
 
 		$this->bot = new Team365Bot();
 
@@ -49,10 +49,10 @@ class Main
 	public function recv_data(): array
 	{
 		$this->verify_signature($_SERVER['HTTP_X_LINE_SIGNATURE'] ?? "");
-		error_log('LINE HEADER SIGNATURE IS OK');
+		e('LINE HEADER SIGNATURE IS OK');
 
 		$json_string = file_get_contents('php://input');
-        error_log($json_string);
+        e($json_string);
 
 		return json_decode($json_string, true) ?? [];
 	}

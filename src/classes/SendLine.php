@@ -51,12 +51,12 @@ class SendLine
 		$httpcode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 		curl_close($ch);
 
-		error_log($httpcode.':'.$ret);
+		e($httpcode.':'.$ret);
 
 		if ($httpcode) {
-			error_log('送信成功');
+			e('送信成功');
 		} else {
-			error_log('送信失敗');
+			e('送信失敗');
 		}
 
 		return ['status' => $httpcode, 'body' => $ret];

@@ -20,7 +20,7 @@ class MyDB
             $MYSQLDATABASE=getenv("MYSQLDATABASE");
 
             $dsn="mysql:dbname={$MYSQLDATABASE};host={$MYSQLHOST};port={$MYSQLPORT}";
-            error_log($dsn);
+            e($dsn);
             $pdo=new PDO($dsn, $MYSQLUSER, $MYSQLPASSWORD);
 
 			// SQL実行時にもエラーの代わりに例外を投げるように設定
@@ -32,7 +32,7 @@ class MyDB
 			$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 			$this->pdo = $pdo;
 		} catch (Exception $e) {
-			error_log($e->getMessage());
+			e($e->getMessage());
 		}
 	}
 
@@ -43,7 +43,7 @@ class MyDB
 			$stmt = $this->pdo->prepare('INSERT INTO drink(user_id, drink, stamp) VALUES (?, ?, ?)');
 			$stmt->execute([$data['user_id'], $data['drink'], date('Y-m-d H:i:s')]);
 		} catch (Exception $e) {
-			error_log($e->getMessage());
+			e($e->getMessage());
 		}
 	}
 
@@ -56,7 +56,7 @@ class MyDB
 			$stmt->execute(['200']);
 			$r1 = $stmt->fetchAll();
 		} catch (Exception $e) {
-			error_log($e->getMessage());
+			e($e->getMessage());
 		}
 	}
 }
