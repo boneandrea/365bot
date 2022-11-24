@@ -54,7 +54,8 @@ class Reply
 		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
 
 		// setup db acccesor
-		$this->db = new MyDB();
+        $db=new MyDB();
+		$this->db = $db->pdo;
 	}
 
 	/**
