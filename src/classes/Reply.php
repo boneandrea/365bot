@@ -6,15 +6,6 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 define('QUEUE', 'USER_POSTS');
 
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use Predis\Client;
-
-function e($e)
-{
-	e(print_r($e, true));
-}
-
 class Reply
 {
 	// $client = new Predis\Client();
@@ -27,10 +18,7 @@ class Reply
 	public function __construct()
 	{
 		// setup log
-		$this->log = new Logger('MONOLOG_TEST');
-		$this->sender = new SendLine($this->log);
-		$handler = new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG);
-		$this->log->pushHandler($handler);
+		$this->sender = new SendLine();
 		$this->cookie = new Cookie();
 
 		// setup message
@@ -40,27 +28,9 @@ class Reply
 		$this->db = new MyDB();
 	}
 
-	public function ll($s)
+	public function execute(array $post): void
 	{
-		$this->log->addDebug(var_export($s, true));
-	}
-
-	public function execute(): void
-	{
-		$this->pop();
-	}
-
-	public function pop()
-	{
-		$client = new Client();
-
-		while ($post = $client->rpop(QUEUE)) {
-			e($post);
-			if (empty($post)) {
-				break;
-			}
-			$this->reply(json_decode($post, true));
-		}
+        $this->reply($post);
 	}
 
 	/**
@@ -83,8 +53,8 @@ class Reply
 	public function reply(array $msg): void
 	{
 		$this->msg = $msg;
-		$this->ll($msg);
-		$this->log->addDebug($this->checkMessageType());
+		e($msg);
+		e($this->checkMessageType());
 
 		$type = $this->checkMessageType();
 		$to = $this->setRecipient($type);

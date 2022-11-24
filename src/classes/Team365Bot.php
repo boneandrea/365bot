@@ -41,5 +41,9 @@ class Team365Bot
         $stamp=time();
         $stmt->bindValue(':stamp', $stamp, PDO::PARAM_INT);
         $stmt->execute();
+
+        $reply=new Reply();
+        $reply->execute($this->msg);
+
 	}
 }
