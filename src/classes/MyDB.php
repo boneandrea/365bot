@@ -13,7 +13,14 @@ class MyDB
 	public function __construct()
 	{
 		try {        // 接続
-			$pdo = new PDO('sqlite:'.__DIR__.'/../../'.$this->dbname);
+            $MYSQLHOST=getenv("MYSQLHOST");
+            $MYSQLPORT=getenv("MYSQLPORT");
+            $MYSQLUSER=getenv("MYSQLUSER");
+            $MYSQLPASSWORD=getenv("MYSQLPASSWORD");
+            $MYSQLDATABASE=getenv("MYSQLDATABASE");
+            $db_url="mysql://{$MYSQLUSER}:{$MYSQLPASSWORD}@{$MYSQLHOST}:{$MYSQLPORT}/{$MYSQLDATABASE}";
+            error_log($db_url);
+            $pdo=new PDO($db_url);
 
 			// SQL実行時にもエラーの代わりに例外を投げるように設定
 			// (毎回if文を書く必要がなくなる)
