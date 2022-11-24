@@ -62,7 +62,7 @@ class Reply
 			$msg = $this->createMessage($text);
 		}
 
-		e(print_r($msg, true));
+		e($msg);
 
 		if (is_array($msg)) {
 			$ret = $this->sender->push($to, $msg);
