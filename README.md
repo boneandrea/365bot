@@ -10,3 +10,15 @@
 
 Cookieのようなものを作る  
 DBが必要
+
+
+
+# アプリ2つ
+
+
+## WebApp
+webから来たものをDBにpushして終了
+
+## CronApp
+DBからpushしてreplyしたりする
+
