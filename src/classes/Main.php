@@ -11,9 +11,7 @@ class Main
 	public function __construct()
 	{
 		define('IS_PRD', getenv('MODE') === 'prod');
-
 		error_log('START');
-        error_log(getenv("MYSQLPASSWORD"));
 	}
 
 	// TODO: verify

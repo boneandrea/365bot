@@ -18,9 +18,10 @@ class MyDB
             $MYSQLUSER=getenv("MYSQLUSER");
             $MYSQLPASSWORD=getenv("MYSQLPASSWORD");
             $MYSQLDATABASE=getenv("MYSQLDATABASE");
-            $db_url="mysql://{$MYSQLUSER}:{$MYSQLPASSWORD}@{$MYSQLHOST}:{$MYSQLPORT}/{$MYSQLDATABASE}";
-            error_log($db_url);
-            $pdo=new PDO($db_url);
+
+            $dsn="mysql:dbname={$MYSQLDATABASE};host={$MYSQLHOST};port={$MYSQLPORT}";
+            error_log($dsn);
+            $pdo=new PDO($dsn, $MYSQLUSER, $MYSQLPASSWORD);
 
 			// SQL実行時にもエラーの代わりに例外を投げるように設定
 			// (毎回if文を書く必要がなくなる)
