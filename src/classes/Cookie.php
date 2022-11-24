@@ -54,7 +54,7 @@ class Cookie
 	public function getLastAccessTime(string $uid): ?\DateTime
 	{
 		try {
-			$stmt = $this->db->pdo->prepare('SELECT id, stamp FROM drink where user_id=? order by stamp desc limit 1');
+			$stmt = $this->db->pdo->prepare('SELECT stamp FROM drink where user_id=? order by stamp desc limit 1');
 			$stmt->execute([$uid]);
 			$rows = $stmt->fetchAll();
 			if (count($rows) === 0) {
