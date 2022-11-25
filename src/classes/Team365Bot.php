@@ -47,6 +47,6 @@ class Team365Bot
         $stmt->execute();
 
         $reply=new Reply($this->msg);
-        // $reply->say();
+        $reply->say();
 	}
 }
