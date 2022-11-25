@@ -1,10 +1,7 @@
 {
   "require": {
-    "vlucas/phpdotenv": "^3.3",
     "phpunit/phpunit": "^9.5",
-    "friendsofphp/php-cs-fixer": "*",
-    "nanasess/php8-compat": "^1.0",
-    "predis/predis": "^2.0"
+    "friendsofphp/php-cs-fixer": "*"
   },
   "autoload": {
     "psr-4": {
