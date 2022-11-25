@@ -1,6 +1,5 @@
 {
   "require": {
-    "monolog/monolog": "^1.24",
     "vlucas/phpdotenv": "^3.3",
     "phpunit/phpunit": "^9.5",
     "friendsofphp/php-cs-fixer": "*",

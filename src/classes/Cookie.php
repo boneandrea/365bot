@@ -3,8 +3,6 @@
 namespace Util;
 
 require_once __DIR__.'/../../vendor/autoload.php';
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 
 define('DEFAULT_INTERVAL', 5);
 
@@ -16,10 +14,6 @@ class Cookie
 	public function __construct(array $config = [])
 	{
 		$this->config['interval'] = $config['interval'] ?? DEFAULT_INTERVAL;
-		// setup log
-		$this->log = new Logger('MONOLOG_TEST');
-		$handler = new StreamHandler(__DIR__.'/../../logs/app.log', Logger::DEBUG);
-		$this->log->pushHandler($handler);
 
 		// setup db acccesor
 		$this->db = new MyDB();
@@ -28,8 +22,8 @@ class Cookie
 	public function isValidInterval(array $data): bool
 	{
 		$uid = $data['source']['userId'];
-		$this->log->addDebug(var_export($data, true));
-		$this->log->addDebug($uid);
+		e($data);
+        d($uid);
 		if (!$uid) {
 			return false;
 		}
@@ -46,7 +40,7 @@ class Cookie
 		}
 
 		$interval = time() - $datetime->getTimestamp();
-		$this->log->addDebug($datetime->getTimestamp().' / '.time().' => '.$interval);
+		e($datetime->getTimestamp().' / '.time().' => '.$interval);
 
 		return $interval > $this->config['interval'];
 	}
@@ -66,7 +60,7 @@ class Cookie
 			e($e->getMessage());
 		}
 		foreach ($rows as $r) {
-			$this->log->addDebug(var_export($r, true));
+			e($r);
 		}
 	}
 }
