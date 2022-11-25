@@ -46,6 +46,7 @@ class Reply
                 )
             )
         ];
+        e($msg);
 		$this->msg = $msg;
 		$this->sender = new SendLine();
 		$this->cookie = new Cookie();
