@@ -25,4 +25,15 @@ class Team365Bot
         $reply=new Reply($this->msg);
         $reply->say();
 	}
+
+    public function push($to, array $msg)
+    {
+        $this->sender->push($to, $msg);
+    }
+
+    public function pushText($to, string $text)
+    {
+        $this->sender=new SendLine();
+        $this->sender->pushText($to, $text);
+    }
 }

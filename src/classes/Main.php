@@ -7,6 +7,7 @@ require_once __DIR__.'/../../vendor/autoload.php';
 class Main
 {
 	private $bot;
+    use JsonMessageTrait;
 
 	public function __construct()
 	{
@@ -19,9 +20,20 @@ class Main
 		return true;
 	}
 
-	public function getRecipient()
+	/**
+	 * 誰に送る.
+	 *
+	 * @param string $type
+	 *
+	 * @return string MessagingAPIで使う送信先ID
+	 */
+	public function getRecipient($type="")
 	{
-		return getenv('GROUP_ID');
+		if (IS_PRD) {
+			return ($type === 'user') ? getenv('TO_USER_ID') : getenv('GROUP_ID');
+		}
+
+        return getenv('TO_USER_ID');
 	}
 
     // 時報送信: shell実行(by cron)
@@ -37,7 +49,7 @@ class Main
         e('send');
         $this->bot = new Team365Bot();
 
-        $to = $this->getRecipient();
+        $to = $this->getRecipient("group");
 
         $this->bot->pushText(
             $to,
@@ -82,11 +94,10 @@ class Main
         // }
 
         if($_SERVER["REQUEST_METHOD"] === "GET"){
-            return;
-        }
-
-        if ($this->cron_authenticate()){
-            $this->alarm_message();
+            if ($this->cron_authenticate()){
+                e("CRON");
+                $this->alarm_message();
+            }
             return;
         }
 
@@ -96,7 +107,7 @@ class Main
 
     public function cron_authenticate(): bool
     {
-        e($authHeader = $_SERVER['X-Team365-Auth']);
-        return $authHeader[0] === getenv("TEAM365_ACCESS_KEY");
+        $authHeader = $_SERVER['HTTP_X_TEAM365_AUTH']??"";
+        return $authHeader === getenv("TEAM365_ACCESS_KEY");
     }
 }

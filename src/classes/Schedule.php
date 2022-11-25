@@ -18,9 +18,10 @@ class Schedule
      */
     public function isTimeToSendAlarm(): bool
     {
-        $client = new Client();
-        $scheduled = $client->get('ALARM');
-
+        // redisから取ってきてる
+        // $client = new Client();
+        // $scheduled = $client->get('ALARM');
+        $scheduled=time()-100;
         e(date('Y-m-d H:i', $scheduled));
         e(date('Y-m-d H:i', time()));
 
@@ -38,9 +39,9 @@ class Schedule
         $date->modify("+{$r} minutes");
         // e($date->format('Y-m-d H:i'));
 
-        $client = new Client();
-        $client->set('ALARM', $date->getTimestamp());
-        $client->save();
+        // $client = new Client();
+        // $client->set('ALARM', $date->getTimestamp());
+        // $client->save();
 
         return true;
     }
