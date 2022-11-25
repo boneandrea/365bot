@@ -44,6 +44,5 @@ class Team365Bot
 
         $reply=new Reply($this->msg);
         $reply->reply();
-
 	}
 }

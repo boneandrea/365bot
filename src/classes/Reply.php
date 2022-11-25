@@ -55,7 +55,7 @@ class Reply
 
 		// setup db acccesor
         $db=new MyDB();
-		$this->db = $db->pdo;
+		$this->db = $db;
 	}
 
 	/**
