@@ -30,7 +30,6 @@ class Team365Bot
 		$this->db = $db->pdo;
 	}
 
-	// キューに投入して終了
 	public function reply(): void
     {
         e($this->msg);
@@ -47,7 +46,7 @@ class Team365Bot
 
         $stmt->execute();
 
-        $reply=new Reply($this->msg);
-        $reply->say();
+        // $reply=new Reply($this->msg);
+        // $reply->say();
 	}
 }

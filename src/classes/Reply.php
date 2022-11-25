@@ -39,11 +39,11 @@ class Reply
                 ]
             ]
         ];
-        e($msg);
+
 		$this->msg = $msg;
 		$this->sender = new SendLine();
 		$this->cookie = new Cookie();
-        return;
+
 		// setup message
 		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
 
