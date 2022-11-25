@@ -24,25 +24,35 @@ class Main
 		return getenv('GROUP_ID');
 	}
 
-	// shell実行、時報
-	public function send_message()
-	{
-		e('send');
+    // 時報送信: shell実行(by cron)
+    public function alarm_message()
+    {
+        $schedule = new Schedule();
+        if (!$schedule->isTimeToSendAlarm()) {
+            e('check time... time is not to send');
 
-		$this->bot = new Team365Bot();
+            return;
+        }
 
-		$to = $this->getRecipient();
-		$this->bot->pushText(
-			$to,
-			'飲んでんとはよ帰れ老人共！'
-		);
+        e('send');
+        $this->bot = new Team365Bot();
 
-		$this->bot->push($to, [
-			'type' => 'flex',
-			'altText' => 'やあみんな、Botだよ。',
-			'contents' => json_decode(file_get_contents('messages/json/hello.json'), true),
-		]);
-	}
+        $to = $this->getRecipient();
+
+        $this->bot->pushText(
+            $to,
+            '飲んでんとはよ帰れ老人共！'
+        );
+
+        $content = $this->getMessageJson('hello.json');
+        $this->bot->push($to, [
+            'type' => 'flex',
+            'altText' => 'やあみんな、Botだよ。',
+            'contents' => $content,
+        ]);
+
+        $schedule->setNextScheduledTime();
+    }
 
 	// Webhook
 	public function recv_data(): array
@@ -63,16 +73,30 @@ class Main
 		$this->bot->reply();
 	}
 
-	public function execute()
-	{
+    public function execute()
+    {
+        // if ($_SERVER['argv'][1] ?? '' === 'alarm') {
+        // e("CRON:時報");
+        //     $this->send_message();
+        //     return;
+        // }
+
         if($_SERVER["REQUEST_METHOD"] === "GET"){
             return;
         }
-		if (PHP_SAPI === 'cli') {
-			$this->send_message();
-		} else {
-			$data = $this->recv_data();
-			$this->reply($data);
-		}
-	}
+
+        if ($this->cron_authenticate()){
+            $this->alarm_message();
+            return;
+        }
+
+        $data = $this->recv_data();
+        $this->reply($data);
+    }
+
+    public function cron_authenticate(): bool
+    {
+        e($authHeader = $_SERVER['X-Team365-Auth']);
+        return $authHeader[0] === getenv("TEAM365_ACCESS_KEY");
+    }
 }
