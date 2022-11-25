@@ -4,8 +4,6 @@ namespace Util;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
-define('QUEUE', 'USER_POSTS');
-
 class Reply
 {
 	// $client = new Predis\Client();
@@ -20,37 +18,32 @@ class Reply
 
         if(0)$msg=[
             "destination" => "U31be3e13387f36adb61d34b8899bf88d",
-            "events" => Array
-            (
-                0 => Array
-                (
+            "events" => [
+                [
                     "type" => "postback",
-                    "postback" => Array
-                    (
+                    "postback" => [
                         "data" => "no",
-                    ),
+                    ],
                     "webhookEventId" => "01GJN4TT6ME599BDTF63RP8KNC",
-                    "deliveryContext" => Array
-                    (
+                    "deliveryContext" => [
                         "isRedelivery" =>"",
-                    ),
+                    ],
                     "timestamp" => 1669304510175,
-                    "source" => Array
-                    (
+                    "source" => [
                         "type" => "group",
                         "groupId" => "C7d5fe41da5e346435863ef60dc2f8661",
                         "userId" => "U11bac06cffe164a45e0dd72c438bb68f",
-                    ),
+                    ],
                     "replyToken" => "ea6fa2a9247242c1b7d54f71bc98531e",
                     "mode" => "active",
-                )
-            )
+                ]
+            ]
         ];
         e($msg);
 		$this->msg = $msg;
 		$this->sender = new SendLine();
 		$this->cookie = new Cookie();
-
+        return;
 		// setup message
 		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
 
@@ -70,19 +63,16 @@ class Reply
 	{
 		if (IS_PRD) {
 			return ($type === 'user') ? getenv('TO_USER_ID') : getenv('GROUP_ID');
-		} else {
-			return getenv('TO_USER_ID');
 		}
+
+        return getenv('TO_USER_ID');
 	}
 
 	// なんか考えてリプライする
-	public function reply(): void
+	public function say(): void
 	{
 		e("++++++++++++++++++++++++++++++++");
 		e($this->msg);
-		e($this->checkMessageType());
-		e($this->checkMessageType());
-		e($this->checkMessageType());
 		e($this->checkMessageType());
 
 		$type = $this->checkMessageType();
