@@ -28,13 +28,8 @@ class Cookie
 
 		$lastAccessTime = $this->getLastAccessTime($uid);
         e($lastAccessTime);
-		return $this->_isEnoughInterval($lastAccessTime);
-	}
-
-	public function _isEnoughInterval(int $last_timestamp): bool
-	{
-		$interval = time() - $last_timestamp;
-		e(time()." - ".$last_timestamp);
+        $interval = time() - $lastAccessTime;
+		e(time()." - ".$lastAccessTime);
 		return $interval > $this->config['interval'];
 	}
 
