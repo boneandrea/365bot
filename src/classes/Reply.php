@@ -44,9 +44,9 @@ class Reply
 		$this->sender = new SendLine();
 		$this->cookie = new Cookie();
 
-		// // setup message
-		// $this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
-
+		// setup message
+		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
+        e("HELO");
 		// // setup db acccesor
         // $db=new MyDB();
 		// $this->db = $db;
