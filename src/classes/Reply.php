@@ -68,12 +68,8 @@ class Reply
 	// なんか考えてリプライする
 	public function say(): void
 	{
-		e("++++++++++++++++++++++++++++++++");
-
 		$type = $this->checkMessageType();
 		$to = $this->setRecipient($type);
-		e($type);
-        e($to);
 
 		if ($type === 'postback') {
 			$msg = $this->handlePostback($this->msg['events'][0], $to);
@@ -115,10 +111,7 @@ class Reply
 		} elseif ($msg['postback']['data'] === 'no') {
 			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns['static_words']['NOGOOD'];
 		}
-		e("A");
 		$ret = $this->sender->pushText($to, $reply);
-
-		e("A1");
         $this->db->insertDrink([
 			'user_id' => $msg['source']['userId'],
 			'drink' => 1,

@@ -27,10 +27,7 @@ class Cookie
 		}
 
 		$lastAccessTime = $this->getLastAccessTime($uid);
-        e($lastAccessTime);
-        $interval = time() - $lastAccessTime;
-		e(time()." - ".$lastAccessTime);
-		return $interval > $this->config['interval'];
+		return time() - $lastAccessTime > $this->config['interval'];
 	}
 
 	public function getLastAccessTime(string $uid): int
