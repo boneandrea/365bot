@@ -61,7 +61,7 @@ class Cookie
 				return null;
 			}
 
-			return new \DateTime($rows[0]['stamp']);
+			return new \DateTime("@".$rows[0]['stamp']);
 		} catch (Exception $e) {
 			e($e->getMessage());
 		}

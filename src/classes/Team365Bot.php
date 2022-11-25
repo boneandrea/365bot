@@ -36,8 +36,10 @@ class Team365Bot
         e($this->msg);
 
         $stmt = $this->db->prepare("INSERT INTO drink (user_id, drink, stamp) VALUES (:user_id, :drink, :stamp)");
-        $stmt->bindValue(':user_id', 4, PDO::PARAM_INT);
-        $stmt->bindValue(':drink', 8, PDO::PARAM_INT);
+
+        $user_id="U11bac06cffe164a45e0dd72c438bb68f";
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_STR);
+        $stmt->bindValue(':drink', 2, PDO::PARAM_INT);
         $stamp=time();
         $stmt->bindValue(':stamp', $stamp, PDO::PARAM_INT);
         $stmt->execute();

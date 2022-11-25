@@ -118,9 +118,9 @@ class Reply
 	public function handlePostback(array $msg, string $to): bool
 	{
 		if (!$this->cookie->isValidInterval($msg)) {
-			e('INVALID INTERVAL');
+			e('INVALID INTERVAL-');
 
-			return false;
+			//return false;
 		}
 
 		$userInfo = $this->getUserInfo($msg);
