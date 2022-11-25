@@ -34,6 +34,7 @@ class Cookie
 	public function _isEnoughInterval(int $last_timestamp): bool
 	{
 		$interval = time() - $last_timestamp;
+		e(time()." - ".$last_timestamp);
 		return $interval > $this->config['interval'];
 	}
 
