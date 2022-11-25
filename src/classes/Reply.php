@@ -69,21 +69,18 @@ class Reply
 	public function say(): void
 	{
 		e("++++++++++++++++++++++++++++++++");
-		e($this->msg);
-		e($this->checkMessageType());
 
 		$type = $this->checkMessageType();
 		$to = $this->setRecipient($type);
+		e($type);
+        e($to);
 
-		e($this->msg['events'][0]);
 		if ($type === 'postback') {
 			$msg = $this->handlePostback($this->msg['events'][0], $to);
 		} else {
 			$text = $this->msg['events'][0]['message']['text'] ?? '';
 			$msg = $this->createMessage($text);
 		}
-
-		e($msg);
 
 		if (is_array($msg)) {
 			$ret = $this->sender->push($to, $msg);

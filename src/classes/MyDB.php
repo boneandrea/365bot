@@ -20,7 +20,6 @@ class MyDB
             $MYSQLDATABASE=getenv("MYSQLDATABASE");
 
             $dsn="mysql:dbname={$MYSQLDATABASE};host={$MYSQLHOST};port={$MYSQLPORT}";
-            e($dsn);
             $pdo=new PDO($dsn, $MYSQLUSER, $MYSQLPASSWORD);
 
 			// SQL実行時にもエラーの代わりに例外を投げるように設定
