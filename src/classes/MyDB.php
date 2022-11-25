@@ -38,7 +38,6 @@ class MyDB
 
 	public function insertDrink($data)
 	{
-        e($data);
 		try {
 			// 挿入（プリペアドステートメント）
 			$stmt = $this->pdo->prepare('INSERT INTO drink(user_id, drink, stamp) VALUES (?, ?, ?)');
