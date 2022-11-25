@@ -106,15 +106,18 @@ class Reply
 		$userInfo = $this->getUserInfo($msg);
 		$name = $userInfo['displayName'];
 
-		if ($msg['postback']['data'] === 'yes') {
+		$drink=0;
+        if ($msg['postback']['data'] === 'yes') {
 			$reply = "hey $name, ".$this->patterns['static_words']['GOOD'];
+            $drink=1;
 		} elseif ($msg['postback']['data'] === 'no') {
 			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns['static_words']['NOGOOD'];
+            $drink=2;
 		}
 		$ret = $this->sender->pushText($to, $reply);
         $this->db->insertDrink([
 			'user_id' => $msg['source']['userId'],
-			'drink' => 1,
+			'drink' => $drink,
 		]);
 
 		return true;
