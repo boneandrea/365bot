@@ -18,7 +18,7 @@ class Reply
 	public function __construct(array $msg)
 	{
 
-        $msg=[
+        if(0)$msg=[
             "destination" => "U31be3e13387f36adb61d34b8899bf88d",
             "events" => Array
             (
