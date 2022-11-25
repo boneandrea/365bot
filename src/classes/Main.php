@@ -11,7 +11,6 @@ class Main
 	public function __construct()
 	{
 		define('IS_PRD', getenv('MODE') === 'prod');
-		e('START');
 	}
 
 	// TODO: verify
@@ -66,6 +65,9 @@ class Main
 
 	public function execute()
 	{
+        if($_SERVER["REQUEST_METHOD"] === "GET"){
+            return;
+        }
 		if (PHP_SAPI === 'cli') {
 			$this->send_message();
 		} else {
