@@ -15,7 +15,7 @@ class Reply
 
 	public function __construct(array $msg)
 	{
-        if(0)$msg=[
+        if(1)$msg=[
             "destination" => "U31be3e13387f36adb61d34b8899bf88d",
             "events" => [
                 [
@@ -118,9 +118,11 @@ class Reply
 		} elseif ($msg['postback']['data'] === 'no') {
 			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns['static_words']['NOGOOD'];
 		}
+		e("A");
 		$ret = $this->sender->pushText($to, $reply);
 
-		$this->db->insertDrink([
+		e("A1");
+        $this->db->insertDrink([
 			'user_id' => $msg['source']['userId'],
 			'drink' => 1,
 		]);

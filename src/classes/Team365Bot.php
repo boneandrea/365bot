@@ -18,16 +18,6 @@ class Team365Bot
 	public function __construct(array $json = [])
 	{
 		$this->msg = $json;
-
-		$this->sender = new SendLine();
-		$this->cookie = new Cookie();
-
-		// setup message
-		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
-
-		// setup db acccesor
-        $db=new MyDB();
-		$this->db = $db->pdo;
 	}
 
 	public function reply(): void

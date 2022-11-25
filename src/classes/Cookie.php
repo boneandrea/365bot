@@ -37,7 +37,7 @@ class Cookie
 		return $interval > $this->config['interval'];
 	}
 
-	public function getLastAccessTime(string $uid): ?\DateTime
+	public function getLastAccessTime(string $uid): int
 	{
 		try {
 			$stmt = $this->db->pdo->prepare('SELECT stamp FROM drink where user_id=? order by stamp desc limit 1');
@@ -47,7 +47,7 @@ class Cookie
 				return null;
 			}
 
-			return new \DateTime("@".$rows[0]['stamp']);
+			return $rows[0]['stamp'];
 		} catch (Exception $e) {
 			e($e->getMessage());
 		}
