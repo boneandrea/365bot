@@ -22,26 +22,18 @@ class Cookie
 	public function isValidInterval(array $data): bool
 	{
 		$uid = $data['source']['userId'];
-		e($data);
-        e($uid);
 		if (!$uid) {
 			return false;
 		}
 
 		$lastAccessTime = $this->getLastAccessTime($uid);
-
+        e($lastAccessTime);
 		return $this->_isEnoughInterval($lastAccessTime);
 	}
 
-	public function _isEnoughInterval(?\DateTime $datetime): bool
+	public function _isEnoughInterval(int $last_timestamp): bool
 	{
-		if ($datetime === null) {
-			return true;
-		}
-
-		$interval = time() - $datetime->getTimestamp();
-		e($datetime->getTimestamp().' / '.time().' => '.$interval);
-
+		$interval = time() - $last_timestamp;
 		return $interval > $this->config['interval'];
 	}
 
