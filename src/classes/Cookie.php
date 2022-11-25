@@ -23,7 +23,7 @@ class Cookie
 	{
 		$uid = $data['source']['userId'];
 		e($data);
-        d($uid);
+        e($uid);
 		if (!$uid) {
 			return false;
 		}
