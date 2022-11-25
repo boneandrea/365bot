@@ -47,9 +47,8 @@ class Reply
 		// setup message
 		$this->patterns = json_decode(file_get_contents(__DIR__.'/message.json'), true);
         e("HELO");
-		// // setup db acccesor
-        // $db=new MyDB();
-		// $this->db = $db;
+		// setup db acccesor
+		$this->db = new MyDB();
 	}
 
 	/**
