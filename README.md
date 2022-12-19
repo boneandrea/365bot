@@ -2,6 +2,7 @@
 
 チーム365bot.
 
+project dir: https://railway.app/project/10314956-4cb3-4bfc-ab7d-49eaea63f705
 
 メンバー（全員幹部）はひたすら泥酔しているので、帰宅を促すようLINEに通知する.  
 ただし実効性はない。

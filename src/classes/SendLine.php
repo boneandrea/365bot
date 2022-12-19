@@ -13,9 +13,9 @@ class SendLine
 	public function push(string $to, array $msg)
 	{
 		$payload = [
-	  'to' => $to,
-	  'messages' => [$msg],
-	];
+            'to' => $to,
+            'messages' => [$msg],
+        ];
 
 		return $this->_myPost($payload, getenv('LINE_API_PUSH'));
 	}
@@ -23,28 +23,28 @@ class SendLine
 	public function pushText($to, $text)
 	{
 		return $this->push($to, [
-	  'type' => 'text',
-	  'text' => $text,
-	]);
+            'type' => 'text',
+            'text' => $text,
+        ]);
 	}
 
 	public function header()
 	{
 		return [
-	  'Content-Type: application/json',
-	  'Authorization: Bearer '.getenv('LINE_BOT_ACCESS_TOKEN'),
-	];
+            'Content-Type: application/json',
+            'Authorization: Bearer '.getenv('LINE_BOT_ACCESS_TOKEN'),
+        ];
 	}
 
 	public function _myPost($payload, $apiUrl)
 	{
 		$ch = curl_init($apiUrl);
 		$options = [
-	  CURLOPT_RETURNTRANSFER => true,
-	  CURLOPT_POST => true,
-	  CURLOPT_HTTPHEADER => $this->header(),
-	  CURLOPT_POSTFIELDS => json_encode($payload),
-	];
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => $this->header(),
+            CURLOPT_POSTFIELDS => json_encode($payload),
+        ];
 
 		curl_setopt_array($ch, $options);
 		$ret = curl_exec($ch);
@@ -66,9 +66,9 @@ class SendLine
 	{
 		$ch = curl_init($apiUrl);
 		$options = [
-	  CURLOPT_RETURNTRANSFER => true,
-	  CURLOPT_HTTPHEADER => $this->header(),
-	];
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => $this->header(),
+        ];
 
 		curl_setopt_array($ch, $options);
 		$ret = curl_exec($ch);

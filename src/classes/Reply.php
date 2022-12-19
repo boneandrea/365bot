@@ -71,12 +71,15 @@ class Reply
 		$type = $this->checkMessageType();
 		$to = $this->setRecipient($type);
 
+        e($type);
+        e($to);
 		if ($type === 'postback') {
 			$msg = $this->handlePostback($this->msg['events'][0], $to);
 		} else {
 			$text = $this->msg['events'][0]['message']['text'] ?? '';
 			$msg = $this->createMessage($text);
 		}
+        e($msg);
 
 		if (is_array($msg)) {
 			$ret = $this->sender->push($to, $msg);
@@ -104,7 +107,8 @@ class Reply
 		}
 
 		$userInfo = $this->getUserInfo($msg);
-		$name = $userInfo['displayName'];
+		e($userInfo);
+        $name = $userInfo['displayName'] ?? "no name";
 
 		$drink=0;
         if ($msg['postback']['data'] === 'yes') {
