@@ -15,30 +15,6 @@ class Reply
 
 	public function __construct(array $msg)
 	{
-        if(0)$msg=[
-            "destination" => "U31be3e13387f36adb61d34b8899bf88d",
-            "events" => [
-                [
-                    "type" => "postback",
-                    "postback" => [
-                        "data" => "no",
-                    ],
-                    "webhookEventId" => "01GJN4TT6ME599BDTF63RP8KNC",
-                    "deliveryContext" => [
-                        "isRedelivery" =>"",
-                    ],
-                    "timestamp" => 1669304510175,
-                    "source" => [
-                        "type" => "group",
-                        "groupId" => "C7d5fe41da5e346435863ef60dc2f8661",
-                        "userId" => "U11bac06cffe164a45e0dd72c438bb68f",
-                    ],
-                    "replyToken" => "ea6fa2a9247242c1b7d54f71bc98531e",
-                    "mode" => "active",
-                ]
-            ]
-        ];
-
 		$this->msg = $msg;
 		$this->sender = new SendLine();
 		$this->cookie = new Cookie();
@@ -129,7 +105,8 @@ class Reply
 
 	public function checkMessageType(): string
 	{
-		if ($this->msg['events'][0]['type'] === 'postback') {
+		e($this->msg);
+        if ($this->msg['events'][0]['type'] === 'postback') {
 			return 'postback';
 		}
 
