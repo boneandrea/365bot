@@ -25,7 +25,7 @@ class Cookie
 		if (!$uid) {
 			return false;
 		}
-
+        e("lookup $uid");
 		if(($lastAccessTime = $this->getLastAccessTime($uid)) === null){
             return true;
         }
@@ -39,6 +39,7 @@ class Cookie
 			$stmt->execute([$uid]);
 			$rows = $stmt->fetchAll();
             e($rows);
+            e("COUNT=".count($rows));
 			if (count($rows) === 0) {
 				return null;
 			}
