@@ -38,6 +38,7 @@ class Cookie
 			$stmt = $this->db->pdo->prepare('SELECT stamp FROM drink where user_id=? order by stamp desc limit 1');
 			$stmt->execute([$uid]);
 			$rows = $stmt->fetchAll();
+            e($rows);
 			if (count($rows) === 0) {
 				return null;
 			}
