@@ -45,9 +45,12 @@ class MyDB
 		}
 	}
 
-	public function selectDrink($data): array
+	/**
+     * unused function
+     *
+     */
+    public function selectDrink($data): array
 	{
-		return [];
 		try {
 			// 選択 (プリペアドステートメント)
 			$stmt = $this->pdo->prepare('SELECT * FROM drink where user_id=?');

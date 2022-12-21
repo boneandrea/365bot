@@ -4,9 +4,6 @@ namespace Util;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
-use Predis\Client;
-use \PDO;
-
 class Team365Bot
 {
 	public $msg; // これをパースする

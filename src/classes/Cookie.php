@@ -26,7 +26,9 @@ class Cookie
 			return false;
 		}
 
-		$lastAccessTime = $this->getLastAccessTime($uid);
+		if(($lastAccessTime = $this->getLastAccessTime($uid)) === null){
+            return true;
+        }
 		return time() - $lastAccessTime > $this->config['interval'];
 	}
 
