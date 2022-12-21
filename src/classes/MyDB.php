@@ -7,7 +7,6 @@ use PDO;
 
 class MyDB
 {
-	public $dbname = 'db/t365.db';
 	public $dbh;
 
 	public function __construct()

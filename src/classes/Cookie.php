@@ -32,14 +32,12 @@ class Cookie
 		return time() - $lastAccessTime > $this->config['interval'];
 	}
 
-	public function getLastAccessTime(string $uid): int
+	public function getLastAccessTime(string $uid): ?int
 	{
 		try {
 			$stmt = $this->db->pdo->prepare('SELECT stamp FROM drink where user_id=? order by stamp desc limit 1');
 			$stmt->execute([$uid]);
 			$rows = $stmt->fetchAll();
-            e($rows);
-            e("COUNT=".count($rows));
 			if (count($rows) === 0) {
 				return null;
 			}
