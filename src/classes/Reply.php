@@ -6,7 +6,6 @@ require_once __DIR__.'/../../vendor/autoload.php';
 
 class Reply
 {
-	// $client = new Predis\Client();
 	public $msg; // これをパースする
 	public $sender;
 	public $message;
@@ -47,15 +46,12 @@ class Reply
 		$type = $this->checkMessageType();
 		$to = $this->setRecipient($type);
 
-        e($type);
-        e($to);
 		if ($type === 'postback') {
 			$msg = $this->handlePostback($this->msg['events'][0], $to);
 		} else {
 			$text = $this->msg['events'][0]['message']['text'] ?? '';
 			$msg = $this->createMessage($text);
 		}
-        e($msg);
 
 		if (is_array($msg)) {
 			$ret = $this->sender->push($to, $msg);
@@ -83,7 +79,6 @@ class Reply
 		}
 
 		$userInfo = $this->getUserInfo($msg);
-		e($userInfo);
         $name = $userInfo['displayName'] ?? "no name";
 
 		$drink=0;
@@ -91,7 +86,7 @@ class Reply
 			$reply = "hey $name, ".$this->patterns['static_words']['GOOD'];
             $drink=1;
 		} elseif ($msg['postback']['data'] === 'no') {
-			$reply = "Ohhhhhhhhh Arrrrrghhhhhhh $name, ".$this->patterns['static_words']['NOGOOD'];
+			$reply = $this->patterns['static_words']['NOTDRINK']." $name, ".$this->patterns['static_words']['NOGOOD'];
             $drink=2;
 		}
 		$ret = $this->sender->pushText($to, $reply);
