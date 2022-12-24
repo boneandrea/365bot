@@ -87,12 +87,6 @@ class Main
 
     public function execute()
     {
-        // if ($_SERVER['argv'][1] ?? '' === 'alarm') {
-        // e("CRON:時報");
-        //     $this->send_message();
-        //     return;
-        // }
-
         if($_SERVER["REQUEST_METHOD"] === "GET"){
             if ($this->cron_authenticate()){
                 e("CRON");
