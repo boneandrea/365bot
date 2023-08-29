@@ -38,6 +38,7 @@ class SendLine
 
 	public function _myPost($payload, $apiUrl)
 	{
+        e($payload);
 		$ch = curl_init($apiUrl);
 		$options = [
             CURLOPT_RETURNTRANSFER => true,
