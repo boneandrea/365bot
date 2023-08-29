@@ -128,7 +128,7 @@ class Reply
 				'IMG_20220813_123205.jpg',
 			];
 
-			$content['hero']['url'] = 'https://peixe.biz/hook/www/img/'.$imgs[rand(0, count($imgs) - 1)];
+			$content['hero']['url'] = 'https://365bot-production.up.railway.app/www/img/'.$imgs[rand(0, count($imgs) - 1)];
 
 			return [
 				'type' => 'flex',
