@@ -88,8 +88,9 @@ class Main
     public function execute()
     {
         if($_SERVER["REQUEST_METHOD"] === "GET"){
+            e("CRON");
             if ($this->cron_authenticate()){
-                e("CRON");
+                e("RUN CRON");
                 $this->alarm_message();
             }
             return;

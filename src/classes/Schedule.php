@@ -18,6 +18,7 @@ class Schedule
      */
     public function isTimeToSendAlarm(): bool
     {
+        // TODO: 時刻の記憶、どうやって実現しよう
         // redisから取ってきてる
         // $client = new Client();
         // $scheduled = $client->get('ALARM');
