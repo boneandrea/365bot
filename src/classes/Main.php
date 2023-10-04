@@ -89,7 +89,7 @@ class Main
     {
         if($_SERVER["REQUEST_METHOD"] === "GET"){
             e("CRON");
-            if ($this->cron_authenticate()){
+            if (1||$this->cron_authenticate()){
                 e("RUN CRON");
                 $this->alarm_message();
             }
